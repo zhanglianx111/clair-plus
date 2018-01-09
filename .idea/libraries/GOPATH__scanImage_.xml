@@ -1,0 +1,40 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;scanImage&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/k8s.io" />
+      <root url="file://$PROJECT_DIR$/../beeblogs" />
+      <root url="file://$PROJECT_DIR$/../firstapi" />
+      <root url="file://$PROJECT_DIR$/../practice_beego" />
+      <root url="file://$PROJECT_DIR$/../jeedev-api" />
+      <root url="file://$PROJECT_DIR$/../alertmanager" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/github.com" />
+      <root url="file://$PROJECT_DIR$/../blackbox_exporter" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/quickstart" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../iopApi" />
+      <root url="file://$PROJECT_DIR$/../practice" />
+      <root url="file://$PROJECT_DIR$/../.git" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/k8s.io" />
+      <root url="file://$PROJECT_DIR$/../beeblogs" />
+      <root url="file://$PROJECT_DIR$/../firstapi" />
+      <root url="file://$PROJECT_DIR$/../practice_beego" />
+      <root url="file://$PROJECT_DIR$/../jeedev-api" />
+      <root url="file://$PROJECT_DIR$/../alertmanager" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/github.com" />
+      <root url="file://$PROJECT_DIR$/../blackbox_exporter" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/quickstart" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/golang.org" />
+      <root url="file://$PROJECT_DIR$/../../../../library/gopath/src/gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../iopApi" />
+      <root url="file://$PROJECT_DIR$/../practice" />
+      <root url="file://$PROJECT_DIR$/../.git" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>
