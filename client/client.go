@@ -6,7 +6,7 @@ import (
 	"scanImage/models"
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/config"
 )
 
 var harborURL string
@@ -29,8 +29,13 @@ func GetClient() ClientInterface {
 
 func init() {
 
-	harborURL = beego.AppConfig.String("harborURL")
-	clairURL = beego.AppConfig.String("clairURL")
+	urlConf, err :=  config.NewConfig("ini", "conf/url.conf")
+	if err != nil {
+		logs.Error("解析url配置文件出错:", err)
+	}
+
+	harborURL = urlConf.String("harborURL")
+	clairURL = urlConf.String("clairURL")
 }
 
 func (c *client) GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error) {
