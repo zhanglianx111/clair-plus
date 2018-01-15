@@ -6,12 +6,11 @@ import (
 	"scanImage/models"
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego"
 )
 
-const (
-	harborURL = "http://10.70.77.84"
-	clairURL = "http://10.70.67.199:6060"
-)
+var harborURL string
+var clairURL string
 
 type client struct {
 
@@ -26,6 +25,12 @@ type ClientInterface interface {
 
 func GetClient() ClientInterface {
 	return &client{}
+}
+
+func init() {
+
+	harborURL = beego.AppConfig.String("harborURL")
+	clairURL = beego.AppConfig.String("clairURL")
 }
 
 func (c *client) GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error) {

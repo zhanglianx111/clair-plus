@@ -14,14 +14,44 @@ type clairHandler struct {
 }
 
 type ClairInterface interface {
-	ScanImage(manifest models.ManifestObj, token string, repoName string) (scanedLayer v1.LayerEnvelope, err error)
+	ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error)
 }
 
 func GetClairHandler() ClairInterface {
 	return &clairHandler{}
 }
 
-func (c *clairHandler) ScanImage(manifest models.ManifestObj, token string, repoName string) (scanedLayer v1.LayerEnvelope, err error) {
+func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error) {
+
+	//获取token
+	token, err := client.GetClient().GetToken(repository)
+	if err != nil {
+		logs.Error("获取token失败:", err)
+		return
+	}
+
+	//调用harbor api，拿到manifest
+	manifest, err := client.GetClient().GetManifest(repository, tag)
+	if err != nil {
+		logs.Error("获取manifest失败:", err)
+		return
+	}
+	if manifest.Manifest.MediaType == "" {
+		logs.Error("manifest为空")
+		return
+	}
+
+	//通过manifest获取layers，扫描image并获取漏洞
+	scanedLayer, err = scanImage(manifest, token.Token, repository)
+	if err != nil {
+		logs.Error("扫描images失败:", err)
+		return
+	}
+
+	return
+}
+
+func scanImage(manifest models.ManifestObj, token string, repoName string) (scanedLayer v1.LayerEnvelope, err error) {
 
 	//获取layer
 	layers := getLayers(manifest.Manifest.Layers)
