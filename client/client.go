@@ -116,7 +116,7 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	//调用harbor api获取token
-	req := httplib.Get(buildHarborGetTokenURL())
+	req := httplib.Get(buildHarborGetTokenURL(repository))
 	req.SetBasicAuth("admin", "Harbor12345")
 
 	resp, err := req.String()
@@ -141,12 +141,8 @@ func buildHarborGetBlobURL(repository string, digest string) string {
 	return harborURL + "/v2/" + repository + "/blobs/" + digest
 }
 
-/*func buildHarborGetTokenURL(repository string) string {
+func buildHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=harbor-registry&scope=repository:"+ repository + ":pull"
-}*/
-
-func buildHarborGetTokenURL() string {
-	return harborURL + "/service/token?account=admin&service=harbor-registry"
 }
 
 func buildClairPostLayerURL() string {

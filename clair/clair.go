@@ -68,11 +68,11 @@ func scanImage(manifest models.ManifestObj, token string, repoName string) (scan
 
 		err = client.GetClient().ScanLayer(layer, repoName, token)
 		if err != nil {
-			logs.Error("扫描layer失败:", err)
+			logs.Error("扫描" + repoName + "的layer失败:", err)
 			return
 		}
 	}
-	logs.Info("调用clair post layer api 成功")
+	logs.Info(repoName + "调用clair post layer api 成功")
 
 	//获取扫描后的漏洞
 	imageDigestIndex := len(layers)

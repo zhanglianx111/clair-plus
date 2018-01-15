@@ -49,6 +49,18 @@
                     "200": {}
                 }
             }
+        },
+        "/scan/{namespace}/{repository}/{tag}": {
+            "get": {
+                "tags": [
+                    "scan"
+                ],
+                "description": "get layer",
+                "operationId": "ScanController.Get",
+                "responses": {
+                    "200": {}
+                }
+            }
         }
     }
 }
