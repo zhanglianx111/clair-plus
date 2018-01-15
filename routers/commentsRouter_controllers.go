@@ -9,7 +9,7 @@ func init() {
 
 	beego.GlobalControllerRouter["scanImage/controllers:ScanController"] = append(beego.GlobalControllerRouter["scanImage/controllers:ScanController"],
 		beego.ControllerComments{
-			Method: "GetLayer",
+			Method: "GetLay",
 			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
@@ -20,6 +20,14 @@ func init() {
 			Method: "PostLayer",
 			Router: `/`,
 			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["scanImage/controllers:ScanController"] = append(beego.GlobalControllerRouter["scanImage/controllers:ScanController"],
+		beego.ControllerComments{
+			Method: "GetLayer",
+			Router: `/:namespace/:repository/:tag`,
+			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
 

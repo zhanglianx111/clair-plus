@@ -27,6 +27,14 @@ paths:
       responses:
         "200": {}
         "403": {}
+  /scan/{namespace}/{repository}/{tag}:
+    get:
+      tags:
+      - scan
+      description: get layer
+      operationId: ScanController.Get
+      responses:
+        "200": {}
   /scan/manifest:
     get:
       tags:
