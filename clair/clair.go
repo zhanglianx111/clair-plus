@@ -29,6 +29,7 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 		logs.Error("获取token失败:", err)
 		return
 	}
+	//logs.Info("token:", token.Token)
 
 	//调用harbor api，拿到manifest
 	manifest, err := client.GetClient().GetManifest(repository, tag)
@@ -40,6 +41,7 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 		logs.Error("manifest为空")
 		return
 	}
+	//logs.Info("manifest:", manifest)
 
 	//通过manifest获取layers，扫描image并获取漏洞
 	scanedLayer, err = scanImage(manifest, token.Token, repository)

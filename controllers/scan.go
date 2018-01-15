@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"scanImage/clair"
 	"github.com/astaxie/beego/logs"
+	"scanImage/client"
 )
 
 type ScanController struct {
@@ -16,8 +17,8 @@ type ScanController struct {
 // @router / [get]
 func (s *ScanController) GetLayer() {
 
-	repository := "library/centos"
-	tag := "7"
+	repository := "library/openldap"
+	tag := "1.1.9"
 
 	scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(repository, tag)
 	if err != nil {
@@ -26,6 +27,25 @@ func (s *ScanController) GetLayer() {
 	}
 
 	s.Data["json"] = scanedLayer
+	s.ServeJSON()
+}
+
+// @Title Get
+// @Description get layer
+// @Success 200
+// @router /manifest [get]
+func (s *ScanController) GetLayerManifest() {
+
+	repository := "library/openldap"
+	tag := "1.1.9"
+
+	manifest, err := client.GetClient().GetManifest(repository, tag)
+	if err != nil {
+		logs.Error("获取manifest失败:", err)
+		return
+	}
+
+	s.Data["json"] = manifest
 	s.ServeJSON()
 }
 

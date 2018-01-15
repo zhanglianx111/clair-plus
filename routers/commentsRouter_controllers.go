@@ -23,4 +23,12 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
+	beego.GlobalControllerRouter["scanImage/controllers:ScanController"] = append(beego.GlobalControllerRouter["scanImage/controllers:ScanController"],
+		beego.ControllerComments{
+			Method: "GetLayerManifest",
+			Router: `/manifest`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
 }

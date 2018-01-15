@@ -6,7 +6,9 @@ import (
 	"scanImage/models"
 	"encoding/json"
 	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/config"
+	"strings"
+	"errors"
+	"github.com/astaxie/beego"
 )
 
 var harborURL string
@@ -29,13 +31,13 @@ func GetClient() ClientInterface {
 
 func init() {
 
-	urlConf, err :=  config.NewConfig("ini", "conf/url.conf")
+	/*urlConf, err :=  config.NewConfig("ini", "conf/url.conf")
 	if err != nil {
 		logs.Error("解析url配置文件出错:", err)
-	}
+	}*/
 
-	harborURL = urlConf.String("harborURL")
-	clairURL = urlConf.String("clairURL")
+	harborURL = beego.AppConfig.String("harborURL")
+	clairURL = beego.AppConfig.String("clairURL")
 }
 
 func (c *client) GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error) {
@@ -81,10 +83,15 @@ func (c *client) ScanLayer(layer models.ClairLayer, repository string, token str
 	//将layers以json格式放到body中
 	req.JSONBody(payload)
 
-	_, err = req.String()
+	str, err := req.String()
 	if err != nil {
 		return err
 	}
+	if strings.Contains(str, "Error") {
+		return errors.New(str)
+	}
+
+	//logs.Info("调用post扫描结果:",str)
 
 	return err
 }
@@ -109,7 +116,7 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	//调用harbor api获取token
-	req := httplib.Get(buildHarborGetTokenURL(repository))
+	req := httplib.Get(buildHarborGetTokenURL())
 	req.SetBasicAuth("admin", "Harbor12345")
 
 	resp, err := req.String()
@@ -134,8 +141,12 @@ func buildHarborGetBlobURL(repository string, digest string) string {
 	return harborURL + "/v2/" + repository + "/blobs/" + digest
 }
 
-func buildHarborGetTokenURL(repository string) string {
+/*func buildHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=harbor-registry&scope=repository:"+ repository + ":pull"
+}*/
+
+func buildHarborGetTokenURL() string {
+	return harborURL + "/service/token?account=admin&service=harbor-registry"
 }
 
 func buildClairPostLayerURL() string {
