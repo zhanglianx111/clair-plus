@@ -1,0 +1,278 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "a9Sq/X9bS1l5EA7KfRmtw4lMedY=",
+			"path": "github.com/astaxie/beego",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "zgHK1vxUJDZTXAPCw+Bls7St0Ks=",
+			"path": "github.com/astaxie/beego/config",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "9/NGkrfm/Kk+lFI3AVOJ1euD+a4=",
+			"path": "github.com/astaxie/beego/context",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "iHY0XMPlj5EfCxMN4NEmvBgdhDM=",
+			"path": "github.com/astaxie/beego/context/param",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "N5kHk4qbc10N2Lp9ltA2G76qNxs=",
+			"path": "github.com/astaxie/beego/grace",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "QwvGCt0X6Z8EvhUTygvCS80wswg=",
+			"path": "github.com/astaxie/beego/httplib",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "ochJai7DifamCfjDhMQGZYrqrDE=",
+			"path": "github.com/astaxie/beego/logs",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "EDaMYv6yHO6Xu9J8loeGIUOvGoE=",
+			"path": "github.com/astaxie/beego/session",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "EOoY9qbCsWnu5FlZZnMKUKkLcMk=",
+			"path": "github.com/astaxie/beego/toolbox",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "W7HBzu7HlF18vCfNPgax7xvHXB0=",
+			"path": "github.com/astaxie/beego/utils",
+			"revision": "f16688817aa428d10361394015b40d096b680542",
+			"revisionTime": "2017-12-18T11:18:59Z"
+		},
+		{
+			"checksumSHA1": "spyv5/YFBjYyZLZa1U2LBfDR8PM=",
+			"origin": "github.com/coreos/clair/vendor/github.com/beorn7/perks/quantile",
+			"path": "github.com/beorn7/perks/quantile",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "iF/eyG4j+WT+r8XBVnVdcPA9WgM=",
+			"path": "github.com/coreos/clair",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "8RU9Yo682iOacXN4hGucxWl+RPY=",
+			"path": "github.com/coreos/clair/api/v1",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "yWhi2XFL37datZ6bpRi3v+RCd4I=",
+			"path": "github.com/coreos/clair/database",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "szGG7k/7mp5r01IAifwOIQeQ8kc=",
+			"path": "github.com/coreos/clair/ext/featurefmt",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "S1XO6YDxXPwtGiJRtmUtWBOxScc=",
+			"path": "github.com/coreos/clair/ext/featurens",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "fOntNmcVF+aNKdseVTKijzgS0IY=",
+			"path": "github.com/coreos/clair/ext/imagefmt",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "+ZFnrP+HIvfe1QU7Sbe1IqrgMU8=",
+			"path": "github.com/coreos/clair/ext/notification",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "lwRwtPvL3h/yGBtGPh07I3W+Lo8=",
+			"path": "github.com/coreos/clair/ext/versionfmt",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "vrhUwdBfi6gC88sN9sQh7DfCXts=",
+			"path": "github.com/coreos/clair/ext/vulnmdsrc",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "OiOhU7Qm+LSi7ngmmP2VpPYKgAM=",
+			"path": "github.com/coreos/clair/ext/vulnsrc",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "gbCaxfxY8biQxqIl13/A886hJeg=",
+			"path": "github.com/coreos/clair/pkg/commonerr",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "y7RwppbD+gpxFmlgDscwgv+EBfk=",
+			"path": "github.com/coreos/clair/pkg/stopper",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "jng0jpsBoJxYSqbFCFLlGEkdaKs=",
+			"path": "github.com/coreos/clair/pkg/tarutil",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "etBdQ0LN6ojGunfvUt6B5C3FNrQ=",
+			"origin": "github.com/coreos/clair/vendor/github.com/coreos/pkg/timeutil",
+			"path": "github.com/coreos/pkg/timeutil",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "Lf3uUXTkKK5DJ37BxQvxO1Fq+K8=",
+			"origin": "github.com/coreos/clair/vendor/github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "AC3L+6uB5lMz2ysLswyI52jXWL8=",
+			"origin": "github.com/coreos/clair/vendor/github.com/fernet/fernet-go",
+			"path": "github.com/fernet/fernet-go",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "kBeNcaKk56FguvPSUCEaH6AxpRc=",
+			"origin": "github.com/coreos/clair/vendor/github.com/golang/protobuf/proto",
+			"path": "github.com/golang/protobuf/proto",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "ezRkrYYy9mMxREVDryjD5NlHa7M=",
+			"origin": "github.com/coreos/clair/vendor/github.com/julienschmidt/httprouter",
+			"path": "github.com/julienschmidt/httprouter",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "bKMZjd2wPw13VwoE7mBeSv5djFA=",
+			"origin": "github.com/coreos/clair/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil",
+			"path": "github.com/matttproud/golang_protobuf_extensions/pbutil",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "z4XZC8hOEUSYPmX70OusGPQO2Uw=",
+			"origin": "github.com/coreos/clair/vendor/github.com/pborman/uuid",
+			"path": "github.com/pborman/uuid",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "zKKp5SZ3d3ycKe4EKMNT0BqAWBw=",
+			"origin": "github.com/coreos/clair/vendor/github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "KkB+77Ziom7N6RzSbyUwYGrmDeU=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/client_golang/prometheus",
+			"path": "github.com/prometheus/client_golang/prometheus",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "DvwvOlPNAgRntBzt3b3OSRMS2N4=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/client_model/go",
+			"path": "github.com/prometheus/client_model/go",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "Wtpzndm/+bdwwNU5PCTfb4oUhc8=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/common/expfmt",
+			"path": "github.com/prometheus/common/expfmt",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "GWlM3d2vPYyNATtTFgftS10/A9w=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
+			"path": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "0LL9u9tfv1KPBjNEiMDP6q7lpog=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/common/model",
+			"path": "github.com/prometheus/common/model",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "my9sP6myQbSinzWZwxa4Q1V6awU=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/procfs",
+			"path": "github.com/prometheus/procfs",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "xCiFAAwVTrjsfZT1BIJQ3DgeNCY=",
+			"origin": "github.com/coreos/clair/vendor/github.com/prometheus/procfs/xfs",
+			"path": "github.com/prometheus/procfs/xfs",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "Wma1ByOP+f4o3I2q1WIuMSuEoCI=",
+			"origin": "github.com/coreos/clair/vendor/github.com/sirupsen/logrus",
+			"path": "github.com/sirupsen/logrus",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "q1qqfgDOGwfEuMlbHWNjYf09ACM=",
+			"origin": "github.com/coreos/clair/vendor/github.com/stretchr/testify/assert",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "oS0UZOGWVVsVciOQ8nZJ582mFF8=",
+			"origin": "github.com/coreos/clair/vendor/golang.org/x/sys/unix",
+			"path": "golang.org/x/sys/unix",
+			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
+			"revisionTime": "2017-06-29T19:59:10Z"
+		}
+	],
+	"rootPath": "github.com/zhanglianx111/clair-plus"
+}
