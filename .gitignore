@@ -1,4 +1,5 @@
-scanImage
+clair-plus
+conf/app.conf
 lastupdate.tmp
 .idea
 *.exe
