@@ -1,21 +1,22 @@
 package client
 
 import (
-	"github.com/astaxie/beego/httplib"
-	"github.com/coreos/clair/api/v1"
-	"scanImage/models"
 	"encoding/json"
-	"github.com/astaxie/beego/logs"
-	"strings"
 	"errors"
+	"strings"
+
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/httplib"
+	"github.com/astaxie/beego/logs"
+
+	"github.com/coreos/clair/api/v1"
+	"github.com/zhanglianx111/clair-plus/models"
 )
 
 var harborURL string
 var clairURL string
 
 type client struct {
-
 }
 
 type ClientInterface interface {
@@ -67,12 +68,12 @@ func (c *client) ScanLayer(layer models.ClairLayer, repository string, token str
 
 	//构建clair官方的layer数据结构
 	payload := v1.LayerEnvelope{
-		Layer : &v1.Layer{
-			Name : layer.Name,
-			Path : buildHarborGetBlobURL(repository, layer.Digest),
-			Headers	: header,
-			ParentName : layer.ParentName,
-			Format : "Docker",
+		Layer: &v1.Layer{
+			Name:       layer.Name,
+			Path:       buildHarborGetBlobURL(repository, layer.Digest),
+			Headers:    header,
+			ParentName: layer.ParentName,
+			Format:     "Docker",
 		},
 	}
 
@@ -142,7 +143,7 @@ func buildHarborGetBlobURL(repository string, digest string) string {
 }
 
 func buildHarborGetTokenURL(repository string) string {
-	return harborURL + "/service/token?account=admin&service=harbor-registry&scope=repository:"+ repository + ":pull"
+	return harborURL + "/service/token?account=admin&service=harbor-registry&scope=repository:" + repository + ":pull"
 }
 
 func buildClairPostLayerURL() string {

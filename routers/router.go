@@ -8,9 +8,9 @@
 package routers
 
 import (
-	"scanImage/controllers"
-
 	"github.com/astaxie/beego"
+
+	"github.com/zhanglianx111/clair-plus/controllers"
 )
 
 func init() {

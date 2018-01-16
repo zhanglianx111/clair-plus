@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
-	"scanImage/clair"
-	"github.com/astaxie/beego/logs"
-	"scanImage/client"
 	"time"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+
+	"github.com/zhanglianx111/clair-plus/clair"
+	"github.com/zhanglianx111/clair-plus/client"
 )
 
 type ScanController struct {
@@ -34,7 +36,7 @@ func (s *ScanController) GetLayer() {
 	}
 
 	elapsed := time.Since(beginTime)
-	logs.Info("执行时间:",elapsed)
+	logs.Info("执行时间:", elapsed)
 
 	s.Data["json"] = scanedLayer
 	s.ServeJSON()
@@ -48,7 +50,6 @@ func (s *ScanController) GetLay() {
 
 	beginTime := time.Now()
 
-
 	m := make(map[string]string)
 	m["library/tomcat"] = "9.0"
 	m["library/golang"] = "1.7.3"
@@ -56,7 +57,6 @@ func (s *ScanController) GetLay() {
 	m["library/openldap"] = "1.1.9"
 	m["library/elasticsearch"] = "2.3.5"
 	m["library/php"] = "7.1.13"
-
 
 	for k, v := range m {
 		go func(k, v string) {
@@ -67,13 +67,12 @@ func (s *ScanController) GetLay() {
 				return
 			}
 			elap := time.Since(bTime)
-			logs.Info(k + "的执行时间:",elap)
+			logs.Info(k+"的执行时间:", elap)
 		}(k, v)
 	}
 
 	elapsss := time.Since(beginTime)
-	logs.Info("总执行时间:",elapsss)
-
+	logs.Info("总执行时间:", elapsss)
 
 	s.Data["json"] = elapsss
 	s.ServeJSON()

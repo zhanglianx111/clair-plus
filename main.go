@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "scanImage/routers"
-
 	"github.com/astaxie/beego"
+
+	_ "github.com/zhanglianx111/clair-plus/routers"
 )
 
 func main() {
