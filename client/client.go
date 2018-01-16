@@ -17,6 +17,7 @@ import (
 var harborURL string
 var clairURL string
 var checkCycle int64
+var harborVersion float64
 
 type client struct {
 }
@@ -37,8 +38,9 @@ func init() {
 	harborURL = beego.AppConfig.String("harborURL")
 	clairURL = beego.AppConfig.String("clairURL")
 	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
+	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
 
-	//周期性验证harbor与clair的健康状态,测试每2秒
+	//周期性验证harbor与clair的健康状态
 	go func(){
 		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
 
@@ -52,7 +54,17 @@ func init() {
 func (c *client) GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error) {
 
 	//调用harbor api获取image的manifest
-	req := httplib.Get(buildHarborGetManifestURL(repoName, tag))
+	var req *httplib.BeegoHTTPRequest
+
+	if harborVersion == 0.4 {
+		req = httplib.Get(buildOldHarborGetManifestURL(repoName, tag))
+	} else if harborVersion == 1.2 {
+		req = httplib.Get(buildHarborGetManifestURL(repoName, tag))
+	} else {
+		logs.Error("Harbor版本不存在")
+		return
+	}
+
 	req.Header("Accept", " application/vnd.docker.distribution.manifest.v2+json")
 
 	resp, err := req.String()
@@ -125,7 +137,17 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	//调用harbor api获取token
-	req := httplib.Get(buildHarborGetTokenURL(repository))
+	var req *httplib.BeegoHTTPRequest
+
+	if harborVersion == 0.4 {
+		req = httplib.Get(buildOldHarborGetTokenURL(repository))
+	} else if harborVersion == 1.2 {
+		req = httplib.Get(buildOldHarborGetTokenURL(repository))
+	} else {
+		logs.Error("Harbor版本不存在")
+		return
+	}
+
 	req.SetBasicAuth("admin", "Harbor12345")
 
 	resp, err := req.String()
@@ -170,12 +192,20 @@ func buildHarborGetManifestURL(repository string, tag string) string {
 	return harborURL + "/api/repositories/" + repository + "/tags/" + tag + "/manifest"
 }
 
+func buildOldHarborGetManifestURL(repository string, tag string) string {
+	return harborURL + "/api/repositories/manifests?repo_name=" + repository + "&tag=" + tag
+}
+
 func buildHarborGetBlobURL(repository string, digest string) string {
 	return harborURL + "/v2/" + repository + "/blobs/" + digest
 }
 
 func buildHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=harbor-registry&scope=repository:" + repository + ":pull"
+}
+
+func buildOldHarborGetTokenURL(repository string) string {
+	return harborURL + "/service/token?account=admin&service=token-service&scope=repository:" + repository + ":pull"
 }
 
 func buildClairPostLayerURL() string {
