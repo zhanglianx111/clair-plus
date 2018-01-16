@@ -11,10 +11,12 @@ import (
 
 	"github.com/coreos/clair/api/v1"
 	"github.com/zhanglianx111/clair-plus/models"
+	"time"
 )
 
 var harborURL string
 var clairURL string
+var checkCycle int64
 
 type client struct {
 }
@@ -32,13 +34,19 @@ func GetClient() ClientInterface {
 
 func init() {
 
-	/*urlConf, err :=  config.NewConfig("ini", "conf/url.conf")
-	if err != nil {
-		logs.Error("解析url配置文件出错:", err)
-	}*/
-
 	harborURL = beego.AppConfig.String("harborURL")
 	clairURL = beego.AppConfig.String("clairURL")
+	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
+
+	//周期性验证harbor与clair的健康状态,测试每2秒
+	go func(){
+		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
+
+		for range ticker.C {
+			go checkHarborHealthy()
+			go checkClairHealthy()
+		}
+	}()
 }
 
 func (c *client) GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error) {
@@ -134,6 +142,30 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 	return
 }
 
+func checkHarborHealthy() {
+
+	req := httplib.Get(buildHarborGetSysInfoURL())
+	_, err := req.String()
+
+	if err != nil {
+		logs.Error("Harbor状态异常:", err)
+	} else {
+		logs.Info("Harbor状态正常")
+	}
+}
+
+func checkClairHealthy() {
+
+	req := httplib.Get(buildClairGetNamespaceURL())
+	_, err := req.String()
+
+	if err != nil {
+		logs.Error("Clair状态异常:", err)
+	} else {
+		logs.Info("Clair状态正常")
+	}
+}
+
 func buildHarborGetManifestURL(repository string, tag string) string {
 	return harborURL + "/api/repositories/" + repository + "/tags/" + tag + "/manifest"
 }
@@ -152,4 +184,12 @@ func buildClairPostLayerURL() string {
 
 func buildClairGetLayerFeaturesURL(layerName string) string {
 	return clairURL + "/v1/layers/" + layerName + "?vulnerabilities"
+}
+
+func buildHarborGetSysInfoURL() string {
+	return harborURL + "/api/systeminfo"
+}
+
+func buildClairGetNamespaceURL() string {
+	return clairURL + "/v1/namespaces"
 }

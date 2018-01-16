@@ -7,36 +7,36 @@ import (
 
 func init() {
 
-	beego.GlobalControllerRouter["clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["clair-plus/controllers:ScanController"],
+	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
 		beego.ControllerComments{
-			Method:           "GetLay",
-			Router:           `/`,
+			Method: "GetLay",
+			Router: `/`,
 			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Params:           nil})
+			MethodParams: param.Make(),
+			Params: nil})
 
-	beego.GlobalControllerRouter["clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["clair-plus/controllers:ScanController"],
+	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
 		beego.ControllerComments{
-			Method:           "PostLayer",
-			Router:           `/`,
+			Method: "PostLayer",
+			Router: `/`,
 			AllowHTTPMethods: []string{"post"},
-			MethodParams:     param.Make(),
-			Params:           nil})
+			MethodParams: param.Make(),
+			Params: nil})
 
-	beego.GlobalControllerRouter["clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["clair-plus/controllers:ScanController"],
+	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
 		beego.ControllerComments{
-			Method:           "GetLayer",
-			Router:           `/:namespace/:repository/:tag`,
+			Method: "GetLayer",
+			Router: `/:namespace/:repository/:tag`,
 			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Params:           nil})
+			MethodParams: param.Make(),
+			Params: nil})
 
-	beego.GlobalControllerRouter["clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["clair-plus/controllers:ScanController"],
+	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
 		beego.ControllerComments{
-			Method:           "GetLayerManifest",
-			Router:           `/manifest`,
+			Method: "GetLayerManifest",
+			Router: `/manifest`,
 			AllowHTTPMethods: []string{"get"},
-			MethodParams:     param.Make(),
-			Params:           nil})
+			MethodParams: param.Make(),
+			Params: nil})
 
 }
