@@ -65,6 +65,8 @@ func (c *client) GetManifest(repoName string, tag string) (manifest models.Manif
 		return
 	}
 
+	//req.SetBasicAuth("fanbc", "IDdR7I")
+	req.SetBasicAuth("admin", "12345")
 	req.Header("Accept", " application/vnd.docker.distribution.manifest.v2+json")
 
 	resp, err := req.String()
@@ -142,13 +144,14 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 	if harborVersion == 0.4 {
 		req = httplib.Get(buildOldHarborGetTokenURL(repository))
 	} else if harborVersion == 1.2 {
-		req = httplib.Get(buildOldHarborGetTokenURL(repository))
+		req = httplib.Get(buildHarborGetTokenURL(repository))
 	} else {
 		logs.Error("Harbor版本不存在")
 		return
 	}
 
-	req.SetBasicAuth("admin", "Harbor12345")
+	req.SetBasicAuth("admin", "12345")
+	//req.SetBasicAuth("fanbc", "IDdR7I")
 
 	resp, err := req.String()
 	if err != nil {
@@ -206,6 +209,7 @@ func buildHarborGetTokenURL(repository string) string {
 
 func buildOldHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=token-service&scope=repository:" + repository + ":pull"
+	//return harborURL + "/service/token?service=token-service&scope=repository:" + repository + ":pull"
 }
 
 func buildClairPostLayerURL() string {
