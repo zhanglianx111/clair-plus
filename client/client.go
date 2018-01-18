@@ -12,15 +12,8 @@ import (
 	"github.com/coreos/clair/api/v1"
 	"github.com/zhanglianx111/clair-plus/models"
 	"time"
+	"sync"
 )
-
-var harborURL string
-var clairURL string
-var checkCycle int64
-var harborVersion float64
-
-type client struct {
-}
 
 type ClientInterface interface {
 	GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error)
@@ -29,9 +22,25 @@ type ClientInterface interface {
 	GetToken(repository string) (token models.Token, err error)
 }
 
-func GetClient() ClientInterface {
-	return &client{}
+var clit *client
+var once sync.Once
+
+type client struct {
 }
+
+func GetClient() ClientInterface {
+
+	once.Do(func() {
+		clit = &client{}
+	})
+
+	return clit
+}
+
+var harborURL string
+var clairURL string
+var checkCycle int64
+var harborVersion float64
 
 func init() {
 

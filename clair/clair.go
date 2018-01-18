@@ -9,17 +9,26 @@ import (
 
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
+	"sync"
 )
-
-type clairHandler struct {
-}
 
 type ClairInterface interface {
 	ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error)
 }
 
+var clair *clairHandler
+var once sync.Once
+
+type clairHandler struct {
+}
+
 func GetClairHandler() ClairInterface {
-	return &clairHandler{}
+
+	once.Do(func() {
+		clair = &clairHandler{}
+	})
+
+	return clair
 }
 
 func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error) {
