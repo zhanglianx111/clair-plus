@@ -50,26 +50,16 @@ func (s *ScanController) GetLayer() {
 	r, err := json.Marshal(image)
 	if err != nil {
 		logs.Error("marshal failed: ", repo, tag)
-	}
-	// send request into mq
-	b := Queue.SendBytes(r)
-	if !b {
-		result = "insert request into mq failed"
+		result = "internal error"
 	} else {
-		result = "ok"
-	}
-	/*
-		scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(repo, tag)
-		if err != nil {
-			logs.Error("扫描images失败:", err)
-			return
+		// send request into mq
+		b := Queue.SendBytes(r)
+		if !b {
+			result = "insert request into mq failed"
+		} else {
+			result = "ok"
 		}
-
-		elapsed := time.Since(beginTime)
-		logs.Info("执行时间:", elapsed)
-
-		s.Data["json"] = scanedLayer
-	*/
+	}
 	s.Data["json"] = result
 	s.ServeJSON()
 }

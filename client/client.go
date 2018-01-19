@@ -210,8 +210,6 @@ func checkHarborHealthy() {
 
 	if err != nil {
 		logs.Error("Harbor状态异常: ", err)
-	} else {
-		logs.Info("Harbor状态正常")
 	}
 }
 
@@ -222,8 +220,6 @@ func checkClairHealthy() {
 
 	if err != nil {
 		logs.Error("Clair状态异常: ", err)
-	} else {
-		logs.Info("Clair状态正常")
 	}
 }
 
