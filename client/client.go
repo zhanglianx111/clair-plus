@@ -20,6 +20,7 @@ type ClientInterface interface {
 	ScanLayer(layer models.ClairLayer, repository string, token string) (err error)
 	GetLayerVulnerabilities(layerName string) (scanedLayer v1.LayerEnvelope, err error)
 	GetToken(repository string) (token models.Token, err error)
+	IsRepoTagExist(repository string, tag string) (bool, error)
 }
 
 var clit *client
@@ -82,7 +83,7 @@ func (c *client) GetManifest(repoName string, tag string) (manifest models.Manif
 	if err != nil {
 		return
 	}
-	logs.Info("获取" + repoName + "的manifest，成功")
+	logs.Info("获取" + repoName + "的manifest 成功")
 
 	err = json.Unmarshal([]byte(resp), &manifest)
 	if err != nil {
@@ -145,6 +146,19 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 	return
 }
 
+func (c *client) IsRepoTagExist(repository string, tag string) (bool, error) {
+
+	tags, err := getRepositoryTags(repository)
+	if err != nil {
+		return false, err
+	}
+
+	tag = "\"" + tag + "\""
+	isExist := strings.Contains(tags, tag)
+
+	return isExist, err
+}
+
 func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	//调用harbor api获取token
@@ -176,13 +190,25 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 	return
 }
 
+func getRepositoryTags(repository string) (tags string, err error) {
+
+	req := httplib.Get(buildOldHarborGetRepoTagsURL(repository))
+
+	//这里将tag解析成数组的话，判断tag是否存在需要遍历数组，性能太差
+	//所以将tag解析成string，使用strings包的contains函数，性能较好，但只能达到判断存在与否的目的
+	//err = req.ToJSON(&tags)
+	tags, err = req.String()
+
+	return
+}
+
 func checkHarborHealthy() {
 
 	req := httplib.Get(buildHarborGetSysInfoURL())
 	_, err := req.String()
 
 	if err != nil {
-		logs.Error("Harbor状态异常:", err)
+		logs.Error("Harbor状态异常: ", err)
 	} else {
 		logs.Info("Harbor状态正常")
 	}
@@ -194,7 +220,7 @@ func checkClairHealthy() {
 	_, err := req.String()
 
 	if err != nil {
-		logs.Error("Clair状态异常:", err)
+		logs.Error("Clair状态异常: ", err)
 	} else {
 		logs.Info("Clair状态正常")
 	}
@@ -235,4 +261,8 @@ func buildHarborGetSysInfoURL() string {
 
 func buildClairGetNamespaceURL() string {
 	return clairURL + "/v1/namespaces"
+}
+
+func buildOldHarborGetRepoTagsURL(repository string) string {
+	return harborURL + "/api/repositories/tags?repo_name=" + repository
 }

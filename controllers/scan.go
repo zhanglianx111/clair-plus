@@ -109,6 +109,30 @@ func (s *ScanController) GetLayerManifest() {
 	s.ServeJSON()
 }
 
+// @Title Get
+// @Description get layer
+// @Success 200
+// @router /tags/:namespace/:repository/:tag [get]
+func (s *ScanController) GetRepoTags() {
+
+	ParamsMap := s.Ctx.Input.Params()
+
+	namespace := ParamsMap[":namespace"]
+	repository := ParamsMap[":repository"]
+	tag := ParamsMap[":tag"]
+
+	repo := namespace + "/" + repository
+
+	isExist, err := client.GetClient().IsRepoTagExist(repo, tag)
+	if err != nil {
+		logs.Error("失败:", err)
+		return
+	}
+
+	s.Data["json"] = isExist
+	s.ServeJSON()
+}
+
 // @Title post
 // @Description post
 // @Success 200

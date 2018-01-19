@@ -43,3 +43,11 @@ paths:
       operationId: ScanController.Get
       responses:
         "200": {}
+  /scan/tags/{namespace}/{repository}/{tag}:
+    get:
+      tags:
+      - scan
+      description: get layer
+      operationId: ScanController.Get
+      responses:
+        "200": {}

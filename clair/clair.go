@@ -33,10 +33,22 @@ func GetClairHandler() ClairInterface {
 
 func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error) {
 
+	//判断repository是否存在
+	isExit, err := client.GetClient().IsRepoTagExist(repository, tag)
+	if err != nil {
+		logs.Error("获取repository tags失败: ", err)
+		return
+	}
+	if !isExit {
+		logs.Error("repository:"+ repository + ":" + tag + " 不存在")
+		return
+	}
+	logs.Info("repository: "+ repository + ":" + tag + " 存在")
+
 	//获取token
 	token, err := client.GetClient().GetToken(repository)
 	if err != nil {
-		logs.Error("获取token失败:", err)
+		logs.Error("获取token失败: ", err)
 		return
 	}
 	//logs.Info("token:", token.Token)
@@ -44,7 +56,7 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 	//调用harbor api，拿到manifest
 	manifest, err := client.GetClient().GetManifest(repository, tag)
 	if err != nil {
-		logs.Error("获取manifest失败:", err)
+		logs.Error("获取manifest失败: ", err)
 		return
 	}
 	if manifest.Manifest.MediaType == "" {
@@ -56,7 +68,7 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 	//通过manifest获取layers，扫描image并获取漏洞
 	scanedLayer, err = scanImage(manifest, token.Token, repository)
 	if err != nil {
-		logs.Error("扫描images失败:", err)
+		logs.Error("扫描images失败: ", err)
 		return
 	}
 
@@ -78,7 +90,7 @@ func scanImage(manifest models.ManifestObj, token string, repoName string) (scan
 
 		err = client.GetClient().ScanLayer(layer, repoName, token)
 		if err != nil {
-			logs.Error("扫描"+repoName+"的layer失败:", err)
+			logs.Error("扫描"+repoName+"的layer失败: ", err)
 			return
 		}
 	}
@@ -88,7 +100,7 @@ func scanImage(manifest models.ManifestObj, token string, repoName string) (scan
 	imageDigestIndex := len(layers)
 	scanedLayer, err = client.GetClient().GetLayerVulnerabilities(layers[imageDigestIndex-1].Name)
 	if err != nil {
-		logs.Error("获取layer漏洞失败:", err)
+		logs.Error("获取layer漏洞失败: ", err)
 		return
 	}
 
