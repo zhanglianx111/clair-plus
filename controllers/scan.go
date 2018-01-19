@@ -83,12 +83,24 @@ func (s *ScanController) GetLay() {
 	beginTime := time.Now()
 
 	m := make(map[string]string)
-	m["library/tomcat"] = "9.0"
-	m["library/golang"] = "1.7.3"
-	m["library/centos"] = "7"
-	m["library/openldap"] = "1.1.9"
-	m["library/elasticsearch"] = "2.3.5"
-	m["library/php"] = "7.1.13"
+	m["appstore/sonarqube"] = "latest"
+	m["appstore/jetty"] = "latest"
+	m["appstore/redis"] = "latest"
+	m["appstore/httpd"] = "latest"
+	m["appstore/gitlab-ce"] = "latest"
+	m["appstore/rabbitmq"] = "3.6.6"
+	m["appstore/postgres"] = "latest"
+	m["appstore/etcd"] = "caas"
+	m["appstore/redmine"] = "latest"
+	m["appstore/wordpress"] = "latest"
+	m["appstore/joomla"] = "latest"
+	m["appstore/magento"] = "alexcheng"
+	m["appstore/durpal"] = "latest"
+	m["fanbc/redis"] = "1.0"
+	m["chrju/etcd"] = "4.0"
+	m["library/ldap"] = "1.0"
+	m["bitnami/ghost"] = "1.14"
+	m["library/centos"] = "7.2.1511"
 
 	for k, v := range m {
 		go func(k, v string) {
@@ -116,8 +128,8 @@ func (s *ScanController) GetLay() {
 // @router /manifest [get]
 func (s *ScanController) GetLayerManifest() {
 
-	repository := "library/python"
-	tag := "3.5"
+	repository := "chrju/etcd"
+	tag := "4.0"
 
 	manifest, err := client.GetClient().GetManifest(repository, tag)
 	if err != nil {
@@ -126,6 +138,30 @@ func (s *ScanController) GetLayerManifest() {
 	}
 
 	s.Data["json"] = manifest
+	s.ServeJSON()
+}
+
+// @Title Get
+// @Description get layer
+// @Success 200
+// @router /tags/:namespace/:repository/:tag [get]
+func (s *ScanController) GetRepoTags() {
+
+	ParamsMap := s.Ctx.Input.Params()
+
+	namespace := ParamsMap[":namespace"]
+	repository := ParamsMap[":repository"]
+	tag := ParamsMap[":tag"]
+
+	repo := namespace + "/" + repository
+
+	isExist, err := client.GetClient().IsRepoTagExist(repo, tag)
+	if err != nil {
+		logs.Error("失败:", err)
+		return
+	}
+
+	s.Data["json"] = isExist
 	s.ServeJSON()
 }
 

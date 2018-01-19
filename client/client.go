@@ -11,27 +11,37 @@ import (
 
 	"github.com/coreos/clair/api/v1"
 	"github.com/zhanglianx111/clair-plus/models"
+	"sync"
 	"time"
 )
-
-var harborURL string
-var clairURL string
-var checkCycle int64
-var harborVersion float64
-
-type client struct {
-}
 
 type ClientInterface interface {
 	GetManifest(repoName string, tag string) (manifest models.ManifestObj, err error)
 	ScanLayer(layer models.ClairLayer, repository string, token string) (err error)
 	GetLayerVulnerabilities(layerName string) (scanedLayer v1.LayerEnvelope, err error)
 	GetToken(repository string) (token models.Token, err error)
+	IsRepoTagExist(repository string, tag string) (bool, error)
+}
+
+var clit *client
+var once sync.Once
+
+type client struct {
 }
 
 func GetClient() ClientInterface {
-	return &client{}
+
+	once.Do(func() {
+		clit = &client{}
+	})
+
+	return clit
 }
+
+var harborURL string
+var clairURL string
+var checkCycle int64
+var harborVersion float64
 
 func init() {
 
@@ -65,13 +75,15 @@ func (c *client) GetManifest(repoName string, tag string) (manifest models.Manif
 		return
 	}
 
+	//req.SetBasicAuth("fanbc", "IDdR7I")
+	req.SetBasicAuth("admin", "12345")
 	req.Header("Accept", " application/vnd.docker.distribution.manifest.v2+json")
 
 	resp, err := req.String()
 	if err != nil {
 		return
 	}
-	logs.Info("获取" + repoName + "的manifest，成功")
+	logs.Info("获取" + repoName + "的manifest 成功")
 
 	err = json.Unmarshal([]byte(resp), &manifest)
 	if err != nil {
@@ -134,6 +146,20 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 	return
 }
 
+func (c *client) IsRepoTagExist(repository string, tag string) (bool, error) {
+
+	tags, err := getRepositoryTags(repository)
+	if err != nil {
+		return false, err
+	}
+
+	logs.Info("tags:", tags)
+	tag = "\"" + tag + "\""
+	isExist := strings.Contains(tags, tag)
+
+	return isExist, err
+}
+
 func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	//调用harbor api获取token
@@ -142,7 +168,7 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 	if harborVersion == 0.4 {
 		req = httplib.Get(buildOldHarborGetTokenURL(repository))
 	} else if harborVersion == 1.2 {
-		req = httplib.Get(buildOldHarborGetTokenURL(repository))
+		req = httplib.Get(buildHarborGetTokenURL(repository))
 	} else {
 		logs.Error("Harbor版本不存在")
 		return
@@ -164,13 +190,26 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 	return
 }
 
+func getRepositoryTags(repository string) (tags string, err error) {
+
+	req := httplib.Get(buildOldHarborGetRepoTagsURL(repository))
+	req.SetBasicAuth("admin", "12345")
+
+	//这里将tag解析成数组的话，判断tag是否存在需要遍历数组，性能太差
+	//所以将tag解析成string，使用strings包的contains函数，性能较好，但只能达到判断存在与否的目的
+	//err = req.ToJSON(&tags)
+	tags, err = req.String()
+
+	return
+}
+
 func checkHarborHealthy() {
 
 	req := httplib.Get(buildHarborGetSysInfoURL())
 	_, err := req.String()
 
 	if err != nil {
-		logs.Error("Harbor状态异常:", err)
+		logs.Error("Harbor状态异常: ", err)
 	} else {
 		logs.Info("Harbor状态正常")
 	}
@@ -182,7 +221,7 @@ func checkClairHealthy() {
 	_, err := req.String()
 
 	if err != nil {
-		logs.Error("Clair状态异常:", err)
+		logs.Error("Clair状态异常: ", err)
 	} else {
 		logs.Info("Clair状态正常")
 	}
@@ -206,6 +245,7 @@ func buildHarborGetTokenURL(repository string) string {
 
 func buildOldHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=token-service&scope=repository:" + repository + ":pull"
+	//return harborURL + "/service/token?service=token-service&scope=repository:" + repository + ":pull"
 }
 
 func buildClairPostLayerURL() string {
@@ -222,4 +262,8 @@ func buildHarborGetSysInfoURL() string {
 
 func buildClairGetNamespaceURL() string {
 	return clairURL + "/v1/namespaces"
+}
+
+func buildOldHarborGetRepoTagsURL(repository string) string {
+	return harborURL + "/api/repositories/tags?repo_name=" + repository
 }
