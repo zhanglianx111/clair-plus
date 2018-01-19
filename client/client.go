@@ -153,6 +153,7 @@ func (c *client) IsRepoTagExist(repository string, tag string) (bool, error) {
 		return false, err
 	}
 
+	logs.Info("tags:", tags)
 	tag = "\"" + tag + "\""
 	isExist := strings.Contains(tags, tag)
 
@@ -193,6 +194,7 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 func getRepositoryTags(repository string) (tags string, err error) {
 
 	req := httplib.Get(buildOldHarborGetRepoTagsURL(repository))
+	req.SetBasicAuth("admin", "12345")
 
 	//这里将tag解析成数组的话，判断tag是否存在需要遍历数组，性能太差
 	//所以将tag解析成string，使用strings包的contains函数，性能较好，但只能达到判断存在与否的目的
