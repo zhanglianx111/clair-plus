@@ -41,7 +41,7 @@ func init() {
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
 
 	//周期性验证harbor与clair的健康状态
-	go func(){
+	go func() {
 		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
 
 		for range ticker.C {
@@ -148,7 +148,7 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 		return
 	}
 
-	req.SetBasicAuth("admin", "Harbor12345")
+	req.SetBasicAuth("admin", "12345")
 
 	resp, err := req.String()
 	if err != nil {

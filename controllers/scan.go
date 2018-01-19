@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -8,10 +9,24 @@ import (
 
 	"github.com/zhanglianx111/clair-plus/clair"
 	"github.com/zhanglianx111/clair-plus/client"
+	"github.com/zhanglianx111/clair-plus/models"
+	"github.com/zhanglianx111/clair-plus/mq"
 )
 
 type ScanController struct {
 	beego.Controller
+}
+
+var Queue mq.Mqer
+
+func init() {
+	Queue = new(mq.RedisMq)
+	err := Queue.NewMq("tasks1", "service", "tcp", "localhost:6379", 1)
+	if err != nil {
+		panic(err)
+	}
+
+	go Queue.NewConsumer("consumer")
 }
 
 // @Title Get
@@ -19,26 +34,43 @@ type ScanController struct {
 // @Success 200
 // @router /:namespace/:repository/:tag [get]
 func (s *ScanController) GetLayer() {
-
-	beginTime := time.Now()
+	var result string
 
 	ParamsMap := s.Ctx.Input.Params()
-
 	namespace := ParamsMap[":namespace"]
 	repository := ParamsMap[":repository"]
 	tag := ParamsMap[":tag"]
 	repo := namespace + "/" + repository
 
-	scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(repo, tag)
-	if err != nil {
-		logs.Error("扫描images失败:", err)
-		return
+	image := models.Image{
+		Repo: repo,
+		Tag:  tag,
 	}
 
-	elapsed := time.Since(beginTime)
-	logs.Info("执行时间:", elapsed)
+	r, err := json.Marshal(image)
+	if err != nil {
+		logs.Error("marshal failed: ", repo, tag)
+	}
+	// send request into mq
+	b := Queue.SendBytes(r)
+	if !b {
+		result = "insert request into mq failed"
+	} else {
+		result = "ok"
+	}
+	/*
+		scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(repo, tag)
+		if err != nil {
+			logs.Error("扫描images失败:", err)
+			return
+		}
 
-	s.Data["json"] = scanedLayer
+		elapsed := time.Since(beginTime)
+		logs.Info("执行时间:", elapsed)
+
+		s.Data["json"] = scanedLayer
+	*/
+	s.Data["json"] = result
 	s.ServeJSON()
 }
 
