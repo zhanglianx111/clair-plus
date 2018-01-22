@@ -52,7 +52,7 @@ func init() {
 
 	//周期性验证harbor与clair的健康状态
 	go func(){
-		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
+		ticker := time.NewTicker(time.Second * (time.Duration(checkCycle)))
 
 		for range ticker.C {
 			go checkHarborHealthy()
@@ -153,7 +153,7 @@ func (c *client) IsRepoTagExist(repository string, tag string) (bool, error) {
 		return false, err
 	}
 
-	logs.Info("tags:", tags)
+	//logs.Info("tags:", tags)
 	tag = "\"" + tag + "\""
 	isExist := strings.Contains(tags, tag)
 
@@ -206,11 +206,16 @@ func getRepositoryTags(repository string) (tags string, err error) {
 
 func checkHarborHealthy() {
 
-	req := httplib.Get(buildHarborGetSysInfoURL())
-	_, err := req.String()
+	req := httplib.Get(buildHarborGetProjectsURL())
+	req.SetBasicAuth("admin", "12345")
+	resp, err := req.DoRequest()
 
 	if err != nil {
 		logs.Error("Harbor状态异常: ", err)
+		return
+	}
+	if resp.StatusCode != 200 {
+		logs.Error("Harbor状态异常: ", resp.Status)
 	} else {
 		logs.Info("Harbor状态正常")
 	}
@@ -219,10 +224,14 @@ func checkHarborHealthy() {
 func checkClairHealthy() {
 
 	req := httplib.Get(buildClairGetNamespaceURL())
-	_, err := req.String()
+	resp, err := req.DoRequest()
 
 	if err != nil {
 		logs.Error("Clair状态异常: ", err)
+		return
+	}
+	if resp.StatusCode != 200 {
+		logs.Error("Clair状态异常: ", resp.Status)
 	} else {
 		logs.Info("Clair状态正常")
 	}
@@ -267,4 +276,8 @@ func buildClairGetNamespaceURL() string {
 
 func buildOldHarborGetRepoTagsURL(repository string) string {
 	return harborURL + "/api/repositories/tags?repo_name=" + repository
+}
+
+func buildHarborGetProjectsURL() string {
+	return harborURL + "/api/projects"
 }
