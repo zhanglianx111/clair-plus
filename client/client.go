@@ -41,7 +41,7 @@ var harborURL string
 var clairURL string
 var checkCycle int64
 var harborVersion float64
-var logLevel string
+var logLevel int
 
 func init() {
 	if err := beego.LoadAppConfig("ini", "/etc/clair-plus/app.conf"); err != nil {
@@ -54,19 +54,10 @@ func init() {
 	clairURL = "http://clair:6060"
 	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
-	logLevel = beego.AppConfig.String("logLevel")
+	logLevel = beego.AppConfig.DefaultInt("logLevel", 6)
 
-	switch logLevel {
-	case "error":
-		beego.SetLevel(beego.LevelError)
-	case "dev" :
-		beego.SetLevel(beego.LevelDebug)
-	case "warning":
-		beego.SetLevel(beego.LevelWarning)
-	default:
-		beego.SetLevel(beego.LevelInformational)
-	}
-
+	beego.SetLevel(logLevel)
+	
 	//周期性验证harbor与clair的健康状态
 	go func() {
 		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
