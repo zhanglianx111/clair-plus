@@ -1,7 +1,6 @@
 package client
 
 import (
-	"encoding/json"
 	"errors"
 	"strings"
 
@@ -79,16 +78,12 @@ func (c *client) GetManifest(repoName string, tag string) (manifest models.Manif
 	req.SetBasicAuth("admin", "12345")
 	req.Header("Accept", " application/vnd.docker.distribution.manifest.v2+json")
 
-	resp, err := req.String()
+	err = req.ToJSON(&manifest)
 	if err != nil {
 		return
 	}
 	logs.Info("获取" + repoName + "的manifest 成功")
 
-	err = json.Unmarshal([]byte(resp), &manifest)
-	if err != nil {
-		return
-	}
 	return
 }
 
@@ -132,12 +127,7 @@ func (c *client) ScanLayer(layer models.ClairLayer, repository string, token str
 func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.LayerEnvelope, err error) {
 
 	req := httplib.Get(buildClairGetLayerFeaturesURL(layerName))
-	resp, err := req.String()
-	if err != nil {
-		return
-	}
-
-	err = json.Unmarshal([]byte(resp), &scanedLayer)
+	err = req.ToJSON(&scanedLayer)
 	if err != nil {
 		return
 	}
@@ -176,12 +166,7 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 
 	req.SetBasicAuth("admin", "12345")
 
-	resp, err := req.String()
-	if err != nil {
-		return
-	}
-
-	err = json.Unmarshal([]byte(resp), &token)
+	err = req.ToJSON(&token)
 	if err != nil {
 		return
 	}
