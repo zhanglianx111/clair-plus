@@ -38,7 +38,7 @@ services:
     volumes:
       - /tmp:/tmp
       - ./clair_config:/config
-    command: ["sh", "-x", "/wait-for-postgres.sh", "/clair", "-config", "/config/config.yaml"]
+    command: ["start.sh", "/clair", "-config", "/config/config.yaml"]
 networks:
   clair-plus:
     external: false
