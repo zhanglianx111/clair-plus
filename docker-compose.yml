@@ -1,0 +1,44 @@
+version: '2'
+services:
+  clair-plus:
+    image: clair-plus
+    container_name: clair-plus
+    restart: always
+    ports:
+      - 80:8080
+    networks:
+      - clair-plus
+    depends_on:
+      - mq
+      - clair
+      - postgres
+    volumes:
+      - ./conf/app.conf:/etc/clair-plus/app.conf:z
+  mq:
+    image: redis:4-alpine
+    container_name: mq
+    networks:
+      - clair-plus
+  postgres:
+    image: hub.hcpaas.com/clair/postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - clair-plus
+  clair:
+    image: hub.hcpaas.com/clair/clair-myversion:2.0.0
+    container_name: clair
+    networks:
+      - clair-plus
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - /tmp:/tmp
+      - ./clair_config:/config
+    command: ["sh", "-x", "/wait-for-postgres.sh", "/clair", "-config", "/config/config.yaml"]
+networks:
+  clair-plus:
+    external: false

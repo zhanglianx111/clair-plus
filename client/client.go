@@ -43,9 +43,14 @@ var checkCycle int64
 var harborVersion float64
 
 func init() {
+	if err := beego.LoadAppConfig("ini", "/etc/clair-plus/app.conf"); err != nil {
+		panic(err)
+	}
 
 	harborURL = beego.AppConfig.String("harborURL")
-	clairURL = beego.AppConfig.String("clairURL")
+	logs.Debug(harborURL)
+
+	clairURL = "http://clair:6060"
 	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
 
@@ -226,7 +231,6 @@ func buildHarborGetTokenURL(repository string) string {
 
 func buildOldHarborGetTokenURL(repository string) string {
 	return harborURL + "/service/token?account=admin&service=token-service&scope=repository:" + repository + ":pull"
-	//return harborURL + "/service/token?service=token-service&scope=repository:" + repository + ":pull"
 }
 
 func buildClairPostLayerURL() string {

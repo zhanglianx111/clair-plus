@@ -21,7 +21,7 @@ var Queue mq.Mqer
 
 func init() {
 	Queue = new(mq.RedisMq)
-	err := Queue.NewMq("tasks1", "service", "tcp", "localhost:6379", 1)
+	err := Queue.NewMq("tasks1", "service", "tcp", "mq:6379", 1)
 	if err != nil {
 		panic(err)
 	}
