@@ -210,9 +210,6 @@ func checkHarborHealthy() {
 	if resp.StatusCode != 200 {
 		logs.Error("Harbor状态异常: ", resp.Status)
 		return
-	} else {
-		logs.Info("Harbor状态正常")
-		return
 	}
 }
 
@@ -227,9 +224,6 @@ func checkClairHealthy() {
 	}
 	if resp.StatusCode != 200 {
 		logs.Error("Clair状态异常: ", resp.Status)
-		return
-	} else {
-		logs.Info("Clair状态正常")
 		return
 	}
 }
