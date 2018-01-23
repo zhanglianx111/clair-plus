@@ -27,7 +27,7 @@ services:
     networks:
       - clair-plus
   clair:
-    image: hub.hcpaas.com/clair/clair-myversion:2.0.0
+    image: hub.hcpaas.com/clair/clair:2.0.0
     container_name: clair
     networks:
       - clair-plus
@@ -38,7 +38,7 @@ services:
     volumes:
       - /tmp:/tmp
       - ./clair_config:/config
-    command: ["sh", "-x", "/wait-for-postgres.sh", "/clair", "-config", "/config/config.yaml"]
+    command: ["start.sh", "/clair", "-config", "/config/config.yaml"]
 networks:
   clair-plus:
     external: false
