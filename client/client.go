@@ -195,21 +195,38 @@ func getRepositoryTags(repository string) (tags string, err error) {
 
 func checkHarborHealthy() {
 
-	req := httplib.Get(buildHarborGetSysInfoURL())
-	_, err := req.String()
+	req := httplib.Get(buildHarborGetProjectsURL())
+	req.SetBasicAuth("admin", "12345")
+	resp, err := req.DoRequest()
 
 	if err != nil {
 		logs.Error("Harbor状态异常: ", err)
+		return
+	}
+	if resp.StatusCode != 200 {
+		logs.Error("Harbor状态异常: ", resp.Status)
+		return
+	} else {
+		logs.Info("Harbor状态正常")
+		return
 	}
 }
 
 func checkClairHealthy() {
 
 	req := httplib.Get(buildClairGetNamespaceURL())
-	_, err := req.String()
+	resp, err := req.DoRequest()
 
 	if err != nil {
 		logs.Error("Clair状态异常: ", err)
+		return
+	}
+	if resp.StatusCode != 200 {
+		logs.Error("Clair状态异常: ", resp.Status)
+		return
+	} else {
+		logs.Info("Clair状态正常")
+		return
 	}
 }
 
@@ -251,4 +268,8 @@ func buildClairGetNamespaceURL() string {
 
 func buildOldHarborGetRepoTagsURL(repository string) string {
 	return harborURL + "/api/repositories/tags?repo_name=" + repository
+}
+
+func buildHarborGetProjectsURL() string {
+	return harborURL + "/api/projects"
 }
