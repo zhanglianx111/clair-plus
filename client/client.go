@@ -41,6 +41,7 @@ var harborURL string
 var clairURL string
 var checkCycle int64
 var harborVersion float64
+var logLevel string
 
 func init() {
 	if err := beego.LoadAppConfig("ini", "/etc/clair-plus/app.conf"); err != nil {
@@ -53,6 +54,18 @@ func init() {
 	clairURL = "http://clair:6060"
 	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
+	logLevel = beego.AppConfig.String("logLevel")
+
+	switch logLevel {
+	case "error":
+		beego.SetLevel(beego.LevelError)
+	case "dev" :
+		beego.SetLevel(beego.LevelDebug)
+	case "warning":
+		beego.SetLevel(beego.LevelWarning)
+	default:
+		beego.SetLevel(beego.LevelInformational)
+	}
 
 	//周期性验证harbor与clair的健康状态
 	go func() {
@@ -87,7 +100,7 @@ func (c *client) GetManifest(repoName string, tag string) (manifest models.Manif
 	if err != nil {
 		return
 	}
-	logs.Info("获取" + repoName + "的manifest 成功")
+	logs.Debug("获取" + repoName + "的manifest 成功")
 
 	return
 }
@@ -137,7 +150,7 @@ func (c *client) GetLayerVulnerabilities(layerName string) (scanedLayer v1.Layer
 		return
 	}
 
-	logs.Info("调用clair get layer api 成功")
+	logs.Debug("调用clair get layer api 成功")
 	return
 }
 
@@ -148,7 +161,7 @@ func (c *client) IsRepoTagExist(repository string, tag string) (bool, error) {
 		return false, err
 	}
 
-	logs.Info("tags:", tags)
+	//logs.Debug("tags:", tags)
 	tag = "\"" + tag + "\""
 	isExist := strings.Contains(tags, tag)
 
@@ -176,7 +189,7 @@ func (c *client) GetToken(repository string) (token models.Token, err error) {
 		return
 	}
 
-	logs.Info("获取token 成功")
+	logs.Debug("获取token 成功")
 	return
 }
 

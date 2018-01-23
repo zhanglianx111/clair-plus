@@ -106,7 +106,7 @@ func (s *ScanController) GetLay() {
 	}
 
 	elapsss := time.Since(beginTime)
-	logs.Info("总执行时间:", elapsss)
+	logs.Debug("总执行时间:", elapsss)
 
 	s.Data["json"] = elapsss
 	s.ServeJSON()

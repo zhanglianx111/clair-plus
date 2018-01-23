@@ -43,7 +43,7 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 		logs.Error("repository:"+ repository + ":" + tag + " 不存在")
 		return
 	}
-	logs.Info("repository: "+ repository + ":" + tag + " 存在")
+	logs.Debug("repository: "+ repository + ":" + tag + " 存在")
 
 	//获取token
 	token, err := client.GetClient().GetToken(repository)
@@ -94,7 +94,7 @@ func scanImage(manifest models.ManifestObj, token string, repoName string) (scan
 			return
 		}
 	}
-	logs.Info(repoName + "调用clair post layer api 成功")
+	logs.Debug(repoName + "调用clair post layer api 成功")
 
 	//获取扫描后的漏洞
 	imageDigestIndex := len(layers)
@@ -134,6 +134,6 @@ func getLayers(manifestLayer []models.Layer) (layers []models.ClairLayer) {
 		layers = append(layers, clairLayer)
 	}
 
-	logs.Info("manifest解析layers成功")
+	logs.Debug("manifest解析layers成功")
 	return
 }
