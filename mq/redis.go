@@ -16,8 +16,8 @@ type RedisMq struct {
 }
 
 type Consumer struct {
-	name  string
-	count int
+	name  string // consumer's name
+	count int    // count of message consumed
 }
 
 // new a message queue
@@ -47,11 +47,13 @@ func (r RedisMq) GetMqClient() rmq.Queue {
 
 // add a consumer into mq
 func (r RedisMq) NewConsumer(name string) {
-	r.queue.StartConsuming(1000, 500*time.Millisecond)
+	r.queue.StartConsuming(1000, 100*time.Millisecond)
 	consumer := Consumer{
 		name:  name,
 		count: 0,
 	}
+
+	defer r.queue.Close()
 	r.queue.AddConsumer(name, &consumer)
 	select {}
 }
@@ -77,15 +79,12 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	} else {
 		message.Ack()
 	}
-	logs.Info(scanedLayer)
+	logs.Debug(scanedLayer)
+
 	// send vnlnerabilites to somewhere
+	// TODO
 	elapsed := time.Since(beginTime)
 	logs.Info("执行时间:", elapsed)
-	/*
-		s.Data["json"] = scanedLayer
-		s.Data["json"] = result
-		s.ServeJSON()
-	*/
 }
 
 // add a string message into mq
