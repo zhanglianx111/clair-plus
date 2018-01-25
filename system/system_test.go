@@ -7,7 +7,7 @@ import (
 
 func TestGet(t *testing.T) {
 
-	sysHandler := GetSystemHandler()
+	sysHandler := &systemHandler{}
 	cpu, err := sysHandler.GetCurrentCPU()
 	if err !=nil {
 		beego.Error(err)

@@ -39,7 +39,7 @@ func GetClient() ClientInterface {
 
 var harborURL string
 var clairURL string
-var checkCycle int64
+var checkHealthyCycle int64
 var harborVersion float64
 var logLevel int
 
@@ -52,7 +52,7 @@ func init() {
 	logs.Debug(harborURL)
 
 	clairURL = "http://clair:6060"
-	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
+	checkHealthyCycle = beego.AppConfig.DefaultInt64("checkHealthyCycle", 2)
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
 	logLevel = beego.AppConfig.DefaultInt("logLevel", 6)
 
@@ -60,7 +60,7 @@ func init() {
 	
 	//周期性验证harbor与clair的健康状态
 	go func() {
-		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
+		ticker := time.NewTicker(time.Minute * (time.Duration(checkHealthyCycle)))
 
 		for range ticker.C {
 			go checkHarborHealthy()

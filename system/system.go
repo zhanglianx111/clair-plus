@@ -3,28 +3,138 @@ package system
 import (
 	"sync"
 	"github.com/shirou/gopsutil/mem"
-	"github.com/zhanglianx111/clair-plus/models"
 	"github.com/shirou/gopsutil/cpu"
+	"container/list"
+	"time"
+	"github.com/astaxie/beego/logs"
+	"github.com/zhanglianx111/clair-plus/models"
+	"github.com/astaxie/beego"
 )
 
 type SystemInterface interface {
-	GetCurrentMemary() (memary models.Memary, err error)
-	GetCurrentCPU() (cpuInfo models.CPU, err error)
+	GetMemAveragePercent() float64
+	GetCPUAveragePercent() float64
 }
 
 var once sync.Once
 var sysHandler *systemHandler
+var osInterval int
 
 type systemHandler struct {
+	CPUIntervalQueue list.List
+	MemIntercalQueue list.List
 }
 
 func GetSystemHandler() SystemInterface {
+
+	return sysHandler
+}
+
+func init() {
 
 	once.Do(func() {
 		sysHandler = &systemHandler{}
 	})
 
-	return sysHandler
+	osInterval = beego.AppConfig.DefaultInt("osInterval", 5)
+
+	//周期性监控cpu与内存
+	go func() {
+		ticker := time.NewTicker(time.Second * 1)
+
+		for range ticker.C {
+			go sysHandler.MemLastIntervalQueue()
+			go sysHandler.CPULastIntervalQueue()
+		}
+	}()
+}
+
+func (s *systemHandler) GetMemAveragePercent() float64 {
+
+	var sum float64
+
+	memQueue := s.GetMemQueue()
+
+	//求和
+	for mem := memQueue.Front() ; mem != nil ; mem = mem.Next() {
+
+		value, ok := mem.Value.(models.Memary)
+		if !ok {
+			logs.Error("err:", ok)
+		}
+		//logs.Debug("memary队列:", value.UsedPercent)
+
+		sum += value.UsedPercent
+	}
+
+	return sum / float64(memQueue.Len())
+}
+
+func (s *systemHandler) GetCPUAveragePercent() float64 {
+
+	var sum float64
+
+	cpuQueue := s.GetCPUQueue()
+
+	//求和
+	for cpu := cpuQueue.Front() ; cpu != nil ; cpu = cpu.Next() {
+
+		value, ok := cpu.Value.(models.CPU)
+		if !ok {
+			logs.Error("err:", ok)
+		}
+		//logs.Debug("cpu队列:", value.UsedPercent)
+
+		sum += value.UsedPercent
+	}
+
+	return sum / float64(cpuQueue.Len())
+}
+
+func (s *systemHandler) GetMemQueue() list.List {
+
+	return s.MemIntercalQueue
+}
+
+func (s *systemHandler) GetCPUQueue() list.List {
+
+	return s.CPUIntervalQueue
+}
+
+func (s *systemHandler) MemLastIntervalQueue() {
+
+	mem, err := sysHandler.GetCurrentMemary()
+	if err != nil {
+		logs.Error("获取系统内存失败:", err)
+	}
+
+	s.MemIntercalQueue.PushBack(mem)
+	//logs.Debug("men:", mem, "入队")
+
+	//如果队列的item，大于时间间隔，则队首出列
+	if s.MemIntercalQueue.Len() > osInterval {
+		obsoleteMem := s.MemIntercalQueue.Front()
+		s.MemIntercalQueue.Remove(obsoleteMem)
+		//logs.Debug("mem:", obsoleteMem, "出队")
+	}
+}
+
+func (s *systemHandler) CPULastIntervalQueue() {
+
+	cpu, err := sysHandler.GetCurrentCPU()
+	if err != nil {
+		logs.Error("获取系统CPU失败:", err)
+	}
+
+	s.CPUIntervalQueue.PushBack(cpu)
+	//logs.Debug("cpu:", cpu, "入队")
+
+	//如果队列的item，大于时间间隔，则队首出列
+	if s.CPUIntervalQueue.Len() > osInterval {
+		obsoleteCpu := s.CPUIntervalQueue.Front()
+		s.CPUIntervalQueue.Remove(obsoleteCpu)
+		//logs.Debug("cpu:", obsoleteCpu, "出队")
+	}
 }
 
 func (s *systemHandler) GetCurrentMemary() (memary models.Memary, err error) {
