@@ -11,3 +11,8 @@ type CPU struct {
 	Mhz   float64 `json:"mhz"`
 	UsedPercent float64 `json:"usedPercent"`
 }
+
+type OS struct {
+	Memary Memary `json: memary`
+	CPU CPU `cpu`
+}

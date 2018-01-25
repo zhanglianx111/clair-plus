@@ -12,8 +12,7 @@ import (
 )
 
 type SystemInterface interface {
-	GetMemAveragePercent() float64
-	GetCPUAveragePercent() float64
+	GetAverageInterval() models.OS
 }
 
 var once sync.Once
@@ -43,15 +42,29 @@ func init() {
 		ticker := time.NewTicker(time.Second * 1)
 
 		for range ticker.C {
-			go sysHandler.MemLastIntervalQueue()
-			go sysHandler.CPULastIntervalQueue()
+			sysHandler.MemLastIntervalQueue()
+			sysHandler.CPULastIntervalQueue()
 		}
 	}()
 }
 
-func (s *systemHandler) GetMemAveragePercent() float64 {
+func (s *systemHandler) GetAverageInterval() models.OS {
 
-	var sum float64
+	mem := sysHandler.GetMemAveragePercent()
+
+	cpu := sysHandler.GetCPUAveragePercent()
+
+	return models.OS{
+		Memary: mem,
+		CPU: cpu,
+	}
+}
+
+func (s *systemHandler) GetMemAveragePercent() models.Memary {
+
+	var perSum float64
+	var avalSum uint64
+	var totle uint64
 
 	memQueue := s.GetMemQueue()
 
@@ -64,15 +77,23 @@ func (s *systemHandler) GetMemAveragePercent() float64 {
 		}
 		//logs.Debug("memary队列:", value.UsedPercent)
 
-		sum += value.UsedPercent
+		perSum += value.UsedPercent
+		avalSum += value.Available
+		totle = value.Totle
 	}
 
-	return sum / float64(memQueue.Len())
+	return models.Memary {
+		Totle: totle,
+		UsedPercent: perSum / float64(memQueue.Len()),
+		Available: avalSum / uint64(memQueue.Len()),
+	}
 }
 
-func (s *systemHandler) GetCPUAveragePercent() float64 {
+func (s *systemHandler) GetCPUAveragePercent() models.CPU {
 
-	var sum float64
+	var perSum float64
+	var mhz float64
+	var cores int
 
 	cpuQueue := s.GetCPUQueue()
 
@@ -85,10 +106,16 @@ func (s *systemHandler) GetCPUAveragePercent() float64 {
 		}
 		//logs.Debug("cpu队列:", value.UsedPercent)
 
-		sum += value.UsedPercent
+		perSum += value.UsedPercent
+		mhz = value.Mhz
+		cores = value.Cores
 	}
 
-	return sum / float64(cpuQueue.Len())
+	return models.CPU {
+		Cores: cores,
+		Mhz: mhz,
+		UsedPercent: perSum / float64(cpuQueue.Len()),
+	}
 }
 
 func (s *systemHandler) GetMemQueue() list.List {

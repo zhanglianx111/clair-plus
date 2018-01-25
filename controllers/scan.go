@@ -138,10 +138,9 @@ func (s *ScanController) GetLayerManifest() {
 // @router /getos [get]
 func (s *ScanController) Getos() {
 
-	cpu := system.GetSystemHandler().GetCPUAveragePercent()
-	mem := system.GetSystemHandler().GetMemAveragePercent()
+	os := system.GetSystemHandler().GetAverageInterval()
 
-	s.Data["json"] = "cpu:" + cpu + ",mem:" + mem
+	s.Data["json"] = os
 	s.ServeJSON()
 }
 
