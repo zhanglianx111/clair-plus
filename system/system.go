@@ -51,6 +51,8 @@ func init() {
 func (s *systemHandler) GetAverageInterval() models.OS {
 
 	mem := sysHandler.GetMemAveragePercent()
+	mem.Totle /= 1024
+	mem.Available /= 1024
 
 	cpu := sysHandler.GetCPUAveragePercent()
 

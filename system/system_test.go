@@ -23,7 +23,7 @@ func TestGet(t *testing.T) {
 		beego.Error(err)
 	}
 
-	beego.Debug("内存总量：", memary.Totle)
+	beego.Debug("内存总量：", memary.Totle/1024)
 	beego.Debug("内存使用率：", memary.UsedPercent)
 	beego.Debug("内存剩余：", memary.Available)
 }
