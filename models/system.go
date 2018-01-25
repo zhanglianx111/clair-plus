@@ -7,7 +7,7 @@ type Memary struct {
 }
 
 type CPU struct {
-	Cores int32 `json:"cores"`
+	Cores int `json:"cores"`
 	Mhz   float64 `json:"mhz"`
 	UsedPercent float64 `json:"usedPercent"`
 }

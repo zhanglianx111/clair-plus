@@ -50,13 +50,18 @@ func (s *systemHandler) GetCurrentCPU() (cpuInfo models.CPU, err error) {
 		return
 	}
 
+	cCore, err := cpu.Counts(true)
+	if err != nil {
+		return
+	}
+
 	cPer, err := cpu.Percent(0, false)
 	if err != nil {
 		return
 	}
 
 	cpuInfo = models.CPU{
-		Cores: cInfo[0].Cores,
+		Cores: cCore,
 		Mhz: cInfo[0].Mhz,
 		UsedPercent: cPer[0],
 	}

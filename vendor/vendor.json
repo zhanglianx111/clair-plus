@@ -296,6 +296,12 @@
 			"revisionTime": "2017-06-29T19:59:10Z"
 		},
 		{
+			"checksumSHA1": "XsfNJG1lRQupn1b0i3bFvoL2J2A=",
+			"path": "github.com/shirou/gopsutil",
+			"revision": "37d89088411de59a4ef9fc340afa0e89dfcb4ea9",
+			"revisionTime": "2016-03-31T08:32:24Z"
+		},
+		{
 			"checksumSHA1": "R/fjdtUQaHeLGBIm0QM/RZrRd2g=",
 			"path": "github.com/shirou/gopsutil/cpu",
 			"revision": "6a368fb7cd1221fa6ea90facc9447c9a2234c255",
@@ -362,6 +368,60 @@
 			"path": "github.com/stretchr/testify/assert",
 			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
 			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "n9HMySGS2PVgiKNyjbzJVeS9n3Q=",
+			"path": "github.com/zhanglianx111/clair-plus",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "/k3c2SVo2WkdPYEhgytcFRC3qc8=",
+			"path": "github.com/zhanglianx111/clair-plus/clair",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "/EYubnoHBUoO4sq3AxS71zD3hzo=",
+			"path": "github.com/zhanglianx111/clair-plus/client",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "ch/S/wfZOFi3NJ9WmN0k9lKlQcI=",
+			"path": "github.com/zhanglianx111/clair-plus/controllers",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "tKLw2oXSTVdFqw/E383cr5PYgqo=",
+			"path": "github.com/zhanglianx111/clair-plus/models",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "lqwzW5P2W8bBBKYZrlsrHoSCGPw=",
+			"path": "github.com/zhanglianx111/clair-plus/mq",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "XJ3/iHScP11whVohahCD3TKGgqI=",
+			"path": "github.com/zhanglianx111/clair-plus/routers",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "TFre6C/R5ejaZWPsr2EX1oXxks0=",
+			"path": "github.com/zhanglianx111/clair-plus/system",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
+		},
+		{
+			"checksumSHA1": "kzKi6zfSo0NKklh0+uQovydzvhU=",
+			"path": "github.com/zhanglianx111/clair-plus/tests",
+			"revision": "a0b35a90d9bd683644c3c65c9a4c31bec956d29c",
+			"revisionTime": "2018-01-24T10:59:18Z"
 		},
 		{
 			"checksumSHA1": "oS0UZOGWVVsVciOQ8nZJ582mFF8=",
