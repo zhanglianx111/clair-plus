@@ -11,6 +11,7 @@ import (
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
 	"github.com/zhanglianx111/clair-plus/mq"
+	"github.com/zhanglianx111/clair-plus/system"
 )
 
 type ScanController struct {
@@ -128,6 +129,19 @@ func (s *ScanController) GetLayerManifest() {
 	}
 
 	s.Data["json"] = manifest
+	s.ServeJSON()
+}
+
+// @Title Get
+// @Description get os
+// @Success 200
+// @router /getos [get]
+func (s *ScanController) Getos() {
+
+	cpu := system.GetSystemHandler().GetCPUAveragePercent()
+	mem := system.GetSystemHandler().GetMemAveragePercent()
+
+	s.Data["json"] = "cpu:" + cpu + ",mem:" + mem
 	s.ServeJSON()
 }
 
