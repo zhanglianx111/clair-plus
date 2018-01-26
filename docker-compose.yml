@@ -5,8 +5,6 @@ services:
     restart: always
     ports:
       - 80:8080
-    networks:
-      - clair-plus
     depends_on:
       - mq
       - clair
@@ -14,31 +12,20 @@ services:
     volumes:
       - ./conf/app.conf:/etc/clair-plus/app.conf:z
   mq:
-    image: redis:4-alpine
-    networks:
-      - clair-plus
+    image: library/redis:4-alpine
     volumes:
       - /data/mq:/data
   postgres:
     image: hub.hcpaas.com/clair/postgres:latest
     environment:
       POSTGRES_PASSWORD: password
-    networks:
-      - clair-plus
     volumes:
       - /data/postgres:/var/lib/postgresql/data
   clair:
     image: hub.hcpaas.com/clair/clair:2.0.0
-    networks:
-      - clair-plus
     depends_on:
-      - postgres
-    links:
       - postgres
     volumes:
       - /tmp:/tmp
       - ./clair_config:/config
     command: ["start.sh", "/clair", "-config", "/config/config.yaml"]
-networks:
-  clair-plus:
-    external: false
