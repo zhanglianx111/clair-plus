@@ -1,7 +1,6 @@
 clair-plus
-conf/app.conf
 lastupdate.tmp
-routers/commentsRouter_*
+routers/commentsRouter__*
 .idea
 *.exe
 *.exe~

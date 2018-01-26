@@ -3,6 +3,19 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "1gwrDSTHzITwlyfp2BZAFPq/1SQ=",
+			"path": "github.com/adjust/rmq",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
+			"checksumSHA1": "hUjRunBOXbbWIK435nOdQYqpKvM=",
+			"origin": "github.com/adjust/rmq/vendor/github.com/adjust/uniuri",
+			"path": "github.com/adjust/uniuri",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
 			"checksumSHA1": "a9Sq/X9bS1l5EA7KfRmtw4lMedY=",
 			"path": "github.com/astaxie/beego",
 			"revision": "f16688817aa428d10361394015b40d096b680542",
@@ -272,6 +285,47 @@
 			"path": "golang.org/x/sys/unix",
 			"revision": "f8a1359a60353ae70f7cc78d9c6ab370d1e957d9",
 			"revisionTime": "2017-06-29T19:59:10Z"
+		},
+		{
+			"checksumSHA1": "+4r0PnLwwyhO5/jvU5R/TEJb4kA=",
+			"path": "gopkg.in/bsm/ratelimit.v1",
+			"revision": "db14e161995a5177acef654cb0dd785e8ee8bc22",
+			"revisionTime": "2016-02-20T15:49:07Z"
+		},
+		{
+			"checksumSHA1": "/EL/UuzIPObHgESjkBMaD4gaXOw=",
+			"origin": "github.com/adjust/rmq/vendor/gopkg.in/redis.v3",
+			"path": "gopkg.in/redis.v3",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
+			"checksumSHA1": "b4Z72l8sq4xuWhR+nM5vbLQIv+o=",
+			"origin": "github.com/adjust/rmq/vendor/gopkg.in/redis.v3/internal",
+			"path": "gopkg.in/redis.v3/internal",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
+			"checksumSHA1": "tNI/mAuqqQqfYU4vuJghUroIts4=",
+			"origin": "github.com/adjust/rmq/vendor/gopkg.in/redis.v3/internal/consistenthash",
+			"path": "gopkg.in/redis.v3/internal/consistenthash",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
+			"checksumSHA1": "JvqkSear94dc+NgofRqBAUmLcN0=",
+			"origin": "github.com/adjust/rmq/vendor/gopkg.in/redis.v3/internal/hashtag",
+			"path": "gopkg.in/redis.v3/internal/hashtag",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
+		},
+		{
+			"checksumSHA1": "ROpD4/McQLnnxpPenjA0mEZfTL8=",
+			"origin": "github.com/adjust/rmq/vendor/gopkg.in/redis.v3/internal/pool",
+			"path": "gopkg.in/redis.v3/internal/pool",
+			"revision": "99798ba09475383696d53071bd9885ac41694a7b",
+			"revisionTime": "2017-07-06T10:52:16Z"
 		}
 	],
 	"rootPath": "github.com/zhanglianx111/clair-plus"
