@@ -11,7 +11,6 @@ import (
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
 	"github.com/zhanglianx111/clair-plus/mq"
-	"github.com/zhanglianx111/clair-plus/system"
 )
 
 type ScanController struct {
