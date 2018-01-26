@@ -17,7 +17,8 @@ type SystemInterface interface {
 
 var once sync.Once
 var sysHandler *systemHandler
-var osInterval int
+var storeOSNum int
+var callOSCycle int
 
 type systemHandler struct {
 	CPUIntervalQueue list.List
@@ -35,11 +36,13 @@ func init() {
 		sysHandler = &systemHandler{}
 	})
 
-	osInterval = beego.AppConfig.DefaultInt("osInterval", 5)
+	storeOSNum = beego.AppConfig.DefaultInt("storeOSNum", 5)
+	callOSCycle = beego.AppConfig.DefaultInt("callOSCycle", 1)
 
 	//周期性监控cpu与内存
 	go func() {
-		ticker := time.NewTicker(time.Second * 1)
+
+		ticker := time.NewTicker(time.Second * time.Duration(callOSCycle))
 
 		for range ticker.C {
 			sysHandler.MemLastIntervalQueue()
@@ -141,7 +144,7 @@ func (s *systemHandler) MemLastIntervalQueue() {
 	//logs.Debug("men:", mem, "入队")
 
 	//如果队列的item，大于时间间隔，则队首出列
-	if s.MemIntercalQueue.Len() > osInterval {
+	if s.MemIntercalQueue.Len() > storeOSNum {
 		obsoleteMem := s.MemIntercalQueue.Front()
 		s.MemIntercalQueue.Remove(obsoleteMem)
 		//logs.Debug("mem:", obsoleteMem, "出队")
@@ -159,7 +162,7 @@ func (s *systemHandler) CPULastIntervalQueue() {
 	//logs.Debug("cpu:", cpu, "入队")
 
 	//如果队列的item，大于时间间隔，则队首出列
-	if s.CPUIntervalQueue.Len() > osInterval {
+	if s.CPUIntervalQueue.Len() > storeOSNum {
 		obsoleteCpu := s.CPUIntervalQueue.Front()
 		s.CPUIntervalQueue.Remove(obsoleteCpu)
 		//logs.Debug("cpu:", obsoleteCpu, "出队")

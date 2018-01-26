@@ -41,14 +41,6 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
 		beego.ControllerComments{
-			Method: "Getos",
-			Router: `/getos`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"] = append(beego.GlobalControllerRouter["github.com/zhanglianx111/clair-plus/controllers:ScanController"],
-		beego.ControllerComments{
 			Method: "GetRepoTags",
 			Router: `/tags/:namespace/:repository/:tag`,
 			AllowHTTPMethods: []string{"get"},

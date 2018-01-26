@@ -133,18 +133,6 @@ func (s *ScanController) GetLayerManifest() {
 }
 
 // @Title Get
-// @Description get os
-// @Success 200
-// @router /getos [get]
-func (s *ScanController) Getos() {
-
-	os := system.GetSystemHandler().GetAverageInterval()
-
-	s.Data["json"] = os
-	s.ServeJSON()
-}
-
-// @Title Get
 // @Description get layer
 // @Success 200
 // @router /tags/:namespace/:repository/:tag [get]
