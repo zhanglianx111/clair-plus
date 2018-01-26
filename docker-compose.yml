@@ -12,7 +12,7 @@ services:
     volumes:
       - ./conf/app.conf:/etc/clair-plus/app.conf:z
   mq:
-    image: redis:4-alpine
+    image: library/redis:4-alpine
     volumes:
       - /data/mq:/data
   postgres:
