@@ -280,7 +280,7 @@ func recordLogLevel(logLevel int) {
 	case 7:
 		logs.Info("日志级别为:", logLevel, " debug")
 	case 6:
-		logs.Info("日志级别为:", logLevel, " ingo")
+		logs.Info("日志级别为:", logLevel, " information")
 	case 5:
 		logs.Info("日志级别为:", logLevel, " notice")
 	case 4:

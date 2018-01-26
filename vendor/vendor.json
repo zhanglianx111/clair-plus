@@ -372,56 +372,56 @@
 		{
 			"checksumSHA1": "n9HMySGS2PVgiKNyjbzJVeS9n3Q=",
 			"path": "github.com/zhanglianx111/clair-plus",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "/k3c2SVo2WkdPYEhgytcFRC3qc8=",
 			"path": "github.com/zhanglianx111/clair-plus/clair",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
-			"checksumSHA1": "5rhuqJy2BVOxfC+qeTUkLIJQYyg=",
+			"checksumSHA1": "5wD5rbQ8O/3EB9n7krOtzJE2n0Y=",
 			"path": "github.com/zhanglianx111/clair-plus/client",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "ch/S/wfZOFi3NJ9WmN0k9lKlQcI=",
 			"path": "github.com/zhanglianx111/clair-plus/controllers",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "hv5ZFumZdWBFXUrgyGW+gH+dfno=",
 			"path": "github.com/zhanglianx111/clair-plus/models",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "lqwzW5P2W8bBBKYZrlsrHoSCGPw=",
 			"path": "github.com/zhanglianx111/clair-plus/mq",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "lixlchvX3Rm5JiVfke3IFXcJDgg=",
 			"path": "github.com/zhanglianx111/clair-plus/routers",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "6OkCQHZqEUGyNrJQiLTsE5J7ogw=",
 			"path": "github.com/zhanglianx111/clair-plus/system",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "kzKi6zfSo0NKklh0+uQovydzvhU=",
 			"path": "github.com/zhanglianx111/clair-plus/tests",
-			"revision": "dd879945a05fcb6d9847dd0bc20e7650914c2a5a",
-			"revisionTime": "2018-01-26T07:00:23Z"
+			"revision": "a5e5812e6b62f96bd3daf2683b5a265074cca6b1",
+			"revisionTime": "2018-01-26T07:04:11Z"
 		},
 		{
 			"checksumSHA1": "oS0UZOGWVVsVciOQ8nZJ582mFF8=",
