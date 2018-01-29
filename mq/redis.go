@@ -104,7 +104,7 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 
 func sendResult(scanedLayer v1.LayerEnvelope) {
 
-	webUrl := "10.71.84.44:8080"
+	webUrl := "http://10.71.84.44:8080"
 
 	/*spl := strings.Split(image.Repo, "/")
 	namespace := spl[0]
