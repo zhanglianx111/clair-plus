@@ -39,7 +39,7 @@ func GetClient() ClientInterface {
 
 var harborURL string
 var clairURL string
-var checkCycle int64
+var checkHealthyCycle int64
 var harborVersion float64
 var logLevel int
 
@@ -52,15 +52,17 @@ func init() {
 	logs.Debug(harborURL)
 
 	clairURL = "http://clair:6060"
-	checkCycle = beego.AppConfig.DefaultInt64("checkCycle", 2)
+	checkHealthyCycle = beego.AppConfig.DefaultInt64("checkHealthyCycle", 2)
 	harborVersion = beego.AppConfig.DefaultFloat("harborVersion", 0.4)
 	logLevel = beego.AppConfig.DefaultInt("logLevel", 6)
 
 	beego.SetLevel(logLevel)
+
+	recordLogLevel(logLevel)
 	
 	//周期性验证harbor与clair的健康状态
 	go func() {
-		ticker := time.NewTicker(time.Minute * (time.Duration(checkCycle)))
+		ticker := time.NewTicker(time.Minute * (time.Duration(checkHealthyCycle)))
 
 		for range ticker.C {
 			go checkHarborHealthy()
@@ -270,4 +272,26 @@ func buildOldHarborGetRepoTagsURL(repository string) string {
 
 func buildHarborGetProjectsURL() string {
 	return harborURL + "/api/projects"
+}
+
+func recordLogLevel(logLevel int) {
+
+	switch logLevel {
+	case 7:
+		logs.Info("日志级别为:", logLevel, " debug")
+	case 6:
+		logs.Info("日志级别为:", logLevel, " information")
+	case 5:
+		logs.Info("日志级别为:", logLevel, " notice")
+	case 4:
+		logs.Info("日志级别为:", logLevel, " warning")
+	case 3:
+		logs.Info("日志级别为:", logLevel, " error")
+	case 2:
+		logs.Info("日志级别为:", logLevel, " critical")
+	case 1:
+		logs.Info("日志级别为:", logLevel, " alert")
+	case 0:
+		logs.Info("日志级别为:", logLevel, " emergency")
+	}
 }
