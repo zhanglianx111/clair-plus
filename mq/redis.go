@@ -10,6 +10,8 @@ import (
 	"time"
 	"github.com/coreos/clair/api/v1"
 	"github.com/astaxie/beego/httplib"
+	"strings"
+	"github.com/astaxie/beego"
 )
 
 type RedisMq struct {
@@ -85,7 +87,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
-	sendResult(scanedLayer)
+	sendResult(scanedLayer, image)
 
 	// TODO
 	elapsed := time.Since(beginTime)
@@ -102,16 +104,16 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 	return r.queue.PublishBytes(message)
 }
 
-func sendResult(scanedLayer v1.LayerEnvelope) {
+func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 
-	webUrl := "http://10.71.84.44:8080"
+	//webUrl := "http://10.71.84.44:8080"
+	webUrl := beego.AppConfig.String("webURL")
 
-	/*spl := strings.Split(image.Repo, "/")
+	spl := strings.Split(image.Repo, "/")
 	namespace := spl[0]
-	imageName := spl[1]*/
+	imageName := spl[1]
 
-	//sendURL :=  webUrl + "/rest/v1/" + "registry/hub.hcpaas.com/namespaces/" + namespace + "/images/" + imageName + "/tag/" + image.Tag + "/imageReport"
-	sendURL := webUrl + "/v1/clair"
+	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespaces/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
 	req.JSONBody(scanedLayer)
