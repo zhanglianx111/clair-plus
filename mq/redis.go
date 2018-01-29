@@ -8,6 +8,8 @@ import (
 	"github.com/zhanglianx111/clair-plus/clair"
 	"github.com/zhanglianx111/clair-plus/models"
 	"time"
+	"github.com/coreos/clair/api/v1"
+	"github.com/astaxie/beego/httplib"
 )
 
 type RedisMq struct {
@@ -82,6 +84,9 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	logs.Debug(scanedLayer)
 
 	// send vnlnerabilites to somewhere
+	//现在发从给测试程序
+	sendResult(scanedLayer)
+
 	// TODO
 	elapsed := time.Since(beginTime)
 	logs.Info("执行时间:", elapsed)
@@ -95,4 +100,28 @@ func (r *RedisMq) SendString(message string) bool {
 // add a byte message into mq
 func (r *RedisMq) SendBytes(message []byte) bool {
 	return r.queue.PublishBytes(message)
+}
+
+func sendResult(scanedLayer v1.LayerEnvelope) {
+
+	webUrl := "10.71.84.44:8080"
+
+	/*spl := strings.Split(image.Repo, "/")
+	namespace := spl[0]
+	imageName := spl[1]*/
+
+	//sendURL :=  webUrl + "/rest/v1/" + "registry/hub.hcpaas.com/namespaces/" + namespace + "/images/" + imageName + "/tag/" + image.Tag + "/imageReport"
+	sendURL := webUrl + "/v1/clair"
+
+	req := httplib.Put(sendURL)
+	req.JSONBody(scanedLayer)
+	req.Header("Content-Type", "application/json;charset=utf-8")
+
+	resp, err := req.DoRequest()
+	if err != nil {
+		logs.Error("向web port发送put请求失败:", err)
+	}
+	if resp.StatusCode != 200 {
+		logs.Error("向web port发送put请求失败:", resp.Status)
+	}
 }
