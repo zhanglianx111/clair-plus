@@ -113,7 +113,7 @@ func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 	namespace := spl[0]
 	imageName := spl[1]
 
-	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespaces/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
+	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
 	req.JSONBody(scanedLayer)
