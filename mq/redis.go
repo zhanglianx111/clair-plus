@@ -120,7 +120,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
-	req.JSONBody(sendStr)
+	req.JSONBody(&sendStr)
 	logs.Warning(sendStr.layer)
 	logs.Emergency(sendStr)
 
