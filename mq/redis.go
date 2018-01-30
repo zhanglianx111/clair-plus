@@ -93,7 +93,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	//现在发从给测试程序
 	sendStr := sendStruct{
 		layer: &scanedLayer,
-		usedTime: elapsed,
+		usedTime: &elapsed,
 	}
 	sendResult(sendStr, image)
 }
@@ -134,5 +134,5 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 type sendStruct struct {
 	layer *v1.LayerEnvelope `json: "layer"`
-	usedTime time.Duration `json: "usedTime"`
+	usedTime *time.Duration `json: "usedTime"`
 }
