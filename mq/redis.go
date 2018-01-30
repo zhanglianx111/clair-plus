@@ -91,10 +91,11 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
+	timeStr := elapsed.String()
 	sendStr := sendStruct{
 		layer: scanedLayer.Layer,
 		error: scanedLayer.Error,
-		usedTime: &elapsed.String(),
+		usedTime: &timeStr,
 	}
 	sendResult(sendStr, image)
 }
