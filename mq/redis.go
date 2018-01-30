@@ -92,7 +92,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
 	sendStr := sendStruct{
-		layer: scanedLayer,
+		layer: &scanedLayer,
 		usedTime: elapsed,
 	}
 	sendResult(sendStr, image)
@@ -136,6 +136,6 @@ func sendResult(sendStr sendStruct, image models.Image) {
 }
 
 type sendStruct struct {
-	layer v1.LayerEnvelope `json: "layer"`
+	layer *v1.LayerEnvelope `json: "layer"`
 	usedTime time.Duration `json: "usedTime"`
 }
