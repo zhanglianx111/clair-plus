@@ -92,7 +92,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
 	//timeStr := elapsed.String()
-	sendStr := sendStruct{
+	sendStr := &sendStruct{
 		layer: scanedLayer.Layer,
 		error: scanedLayer.Error,
 		//usedTime: &timeStr,
@@ -122,7 +122,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 
-	req, err := req.JSONBody(&sendStr)
+	req, err := req.JSONBody(*sendStr)
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
