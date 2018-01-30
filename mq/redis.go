@@ -120,6 +120,9 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 	req.JSONBody(sendStr)
+	logs.Warning(sendStr.layer)
+	logs.Emergency(sendStr)
+
 	req.Header("Content-Type", "application/json;charset=utf-8")
 
 	resp, err := req.DoRequest()
