@@ -85,19 +85,22 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	}
 	logs.Debug(scanedLayer)
 
+	// send vnlnerabilites to somewhere
+	//现在发从给测试程序
+	sendResult(scanedLayer, image)
+
 	// TODO
 	elapsed := time.Since(beginTime)
 	logs.Info("执行时间:", elapsed)
 
-	// send vnlnerabilites to somewhere
-	//现在发从给测试程序
+
 	//timeStr := elapsed.String()
-	sendStr := &sendStruct{
+	/*sendStr := &sendStruct{
 		layer: scanedLayer.Layer,
 		error: scanedLayer.Error,
 		//usedTime: &timeStr,
 	}
-	sendResult(sendStr, image)
+	sendResult(sendStr, image)*/
 }
 
 // add a string message into mq
@@ -110,7 +113,7 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 	return r.queue.PublishBytes(message)
 }
 
-func sendResult(sendStr *sendStruct, image models.Image) {
+func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 
 	webUrl := beego.AppConfig.String("webURL")
 
@@ -122,12 +125,10 @@ func sendResult(sendStr *sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 
-	req, err := req.JSONBody(*sendStr)
+	req, err := req.JSONBody(*scanedLayer)
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
-
-	logs.Warning(sendStr)
 
 	req.Header("Content-Type", "application/json;charset=utf-8")
 
@@ -141,8 +142,9 @@ func sendResult(sendStr *sendStruct, image models.Image) {
 	logs.Debug("向web port发送成功")
 }
 
+/*
 type sendStruct struct {
 	layer *v1.Layer `json:"layer"`
 	error *v1.Error `json:"error"`
 	//usedTime *string `json:"usedTime"`
-}
+}*/
