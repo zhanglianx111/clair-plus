@@ -125,7 +125,7 @@ func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 
 	req := httplib.Put(sendURL)
 
-	req, err := req.JSONBody(*scanedLayer)
+	req, err := req.JSONBody(scanedLayer)
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
