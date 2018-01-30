@@ -93,7 +93,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	//现在发从给测试程序
 	sendStr := sendStruct{
 		layer: scanedLayer,
-		usedTime: elapsed,
+		usedTime: elapsed.String(),
 	}
 	sendResult(sendStr, image)
 }
@@ -120,6 +120,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 	req.JSONBody(sendStr)
+
 	req.Header("Content-Type", "application/json;charset=utf-8")
 
 	resp, err := req.DoRequest()
@@ -130,9 +131,11 @@ func sendResult(sendStr sendStruct, image models.Image) {
 		logs.Error("向web port发送put请求失败:", resp.Status)
 	}
 	logs.Debug("向web port发送成功")
+
+
 }
 
 type sendStruct struct {
 	layer v1.LayerEnvelope `json: "layer"`
-	usedTime time.Duration `json: "usedTime"`
+	usedTime string `json: "usedTime"`
 }
