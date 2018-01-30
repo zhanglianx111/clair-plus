@@ -92,7 +92,8 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
 	sendStr := sendStruct{
-		layer: &scanedLayer,
+		layer: scanedLayer.Layer,
+		error: scanedLayer.Error,
 		usedTime: &elapsed,
 	}
 	sendResult(sendStr, image)
@@ -119,8 +120,8 @@ func sendResult(sendStr sendStruct, image models.Image) {
 	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
-	req.JSONBody(&sendStr)
-	logs.Warning(sendStr.layer.Layer)
+	req.JSONBody(sendStr)
+	logs.Warning(sendStr.layer)
 	logs.Emergency(sendStr)
 
 	req.Header("Content-Type", "application/json;charset=utf-8")
@@ -136,6 +137,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 }
 
 type sendStruct struct {
-	layer *v1.LayerEnvelope `json: "layer"`
+	layer *v1.Layer `json: "layer"`
+	error *v1.Error `json: "error"`
 	usedTime *time.Duration `json: "usedTime"`
 }
