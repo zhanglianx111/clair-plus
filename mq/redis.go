@@ -110,7 +110,7 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 	return r.queue.PublishBytes(message)
 }
 
-func sendResult(sendStr sendStruct, image models.Image) {
+func sendResult(sendStr *sendStruct, image models.Image) {
 
 	webUrl := beego.AppConfig.String("webURL")
 
