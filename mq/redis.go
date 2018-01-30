@@ -106,7 +106,6 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 
 func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 
-	//webUrl := "http://10.71.84.44:8080"
 	webUrl := beego.AppConfig.String("webURL")
 
 	spl := strings.Split(image.Repo, "/")
@@ -126,4 +125,5 @@ func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 	if resp.StatusCode != 200 {
 		logs.Error("向web port发送put请求失败:", resp.Status)
 	}
+	logs.Debug("向web port发送成功")
 }
