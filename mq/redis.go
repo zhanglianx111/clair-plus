@@ -122,7 +122,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 
-	req, err := req.JSONBody(sendStr)
+	req, err := req.JSONBody(&sendStr)
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
