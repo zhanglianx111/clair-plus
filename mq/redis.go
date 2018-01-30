@@ -94,7 +94,7 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	sendStr := sendStruct{
 		layer: scanedLayer.Layer,
 		error: scanedLayer.Error,
-		usedTime: elapsed.String(),
+		usedTime: &elapsed.String(),
 	}
 	sendResult(sendStr, image)
 }
@@ -125,7 +125,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
-	
+
 	logs.Warning(sendStr)
 
 	req.Header("Content-Type", "application/json;charset=utf-8")
@@ -143,5 +143,5 @@ func sendResult(sendStr sendStruct, image models.Image) {
 type sendStruct struct {
 	layer *v1.Layer `json:"layer"`
 	error *v1.Error `json:"error"`
-	usedTime string `json:"usedTime"`
+	usedTime *string `json:"usedTime"`
 }
