@@ -92,7 +92,8 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	// send vnlnerabilites to somewhere
 	//现在发从给测试程序
 	sendStr := sendStruct{
-		layer: scanedLayer,
+		layer: scanedLayer.Layer,
+		error: scanedLayer.Error,
 		usedTime: elapsed.String(),
 	}
 	sendResult(sendStr, image)
@@ -120,10 +121,12 @@ func sendResult(sendStr sendStruct, image models.Image) {
 
 	req := httplib.Put(sendURL)
 
-	_,err := req.JSONBody(sendStr)
+	req, err := req.JSONBody(sendStr)
 	if err != nil {
 		logs.Error("转换失败:", err)
 	}
+	
+	logs.Warning(sendStr)
 
 	req.Header("Content-Type", "application/json;charset=utf-8")
 
@@ -138,6 +141,7 @@ func sendResult(sendStr sendStruct, image models.Image) {
 }
 
 type sendStruct struct {
-	layer v1.LayerEnvelope `json: "layer"`
-	usedTime string `json: "usedTime"`
+	layer *v1.Layer `json:"layer"`
+	error *v1.Error `json:"error"`
+	usedTime string `json:"usedTime"`
 }
