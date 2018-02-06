@@ -32,8 +32,8 @@ func init() {
 // @Title Get
 // @Description get layer
 // @Success 200
-// @router /:namespace/:repository/:tag [get]
-func (s *ScanController) GetLayer() {
+// @router /:namespace/:repository/:tag [post]
+func (s *ScanController) PostLayer() {
 	var result string
 
 	ParamsMap := s.Ctx.Input.Params()
@@ -155,11 +155,3 @@ func (s *ScanController) GetRepoTags() {
 	s.ServeJSON()
 }
 
-// @Title post
-// @Description post
-// @Success 200
-// @Failure 403
-// @router / [post]
-func (s *ScanController) PostLayer() {
-
-}

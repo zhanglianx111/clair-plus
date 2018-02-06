@@ -14,12 +14,18 @@ import (
 )
 
 func init() {
-	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/scan",
-			beego.NSInclude(
-				&controllers.ScanController{},
+	/*
+		ns := beego.NewNamespace("/v1",
+			beego.NSNamespace("/scan",
+				beego.NSPost("/:namespace/:repository/:tag",
+					&controllers.GetLayer),
 			),
-		),
-	)
-	beego.AddNamespace(ns)
+		)
+	*/
+	beego.Router("/v1/scan/:namespace/:repository/:tag", &controllers.ScanController{}, "post:PostLayer")
+	beego.Router("/v1/scan/", &controllers.ScanController{}, "get:GetLay")
+	beego.Router("/v1/scan/manifest", &controllers.ScanController{}, "get:GetLayerManifest")
+	beego.Router("/v1/scan/tags/:namespace/:repository/:tag", &controllers.ScanController{}, "get:GetRepoTags")
+
+	beego.Run(":8080")
 }
