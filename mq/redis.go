@@ -77,7 +77,8 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	logs.Info("get message: ", image, "count: ", consumer.count)
 	go func() {
 		beginTime := time.Now()
-		scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
+		//scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
+		scanedLayer, err := clair.GetClairHandler().GetWebPortVulner(image.Repo, image.Tag)
 		if err != nil {
 			logs.Error("扫描images失败:", err)
 			return
@@ -92,7 +93,6 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 		// send vnlnerabilites to somewhere
 		//现在发从给测试程序
 		sendResult(scanedLayer, image)
-
 	}()
 }
 

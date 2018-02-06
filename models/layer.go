@@ -1,5 +1,10 @@
 package models
 
+import (
+	"github.com/coreos/clair/api/v1"
+	"github.com/coreos/clair/utils/types"
+)
+
 type ManifestObj struct {
 	Manifest Manifest `json:"manifest"`
 	Config string `json:"config"`
@@ -23,4 +28,28 @@ type ClairLayer struct {
 	Name string
 	Digest string
 	ParentName string
+}
+
+type Vulner struct {
+	ImageName string `json:"ImageName"`
+	Vulners []V `json:"Vulners"`
+}
+
+type V struct {
+	Description    string  `json:"Description"`
+	Package        Package `json:"Package"`
+	FixedByVersion string  `json:"FixedByVersion"`
+	Link           string  `json:"Link"`
+	Layer          string  `json:"Layer"`
+}
+
+type Package struct {
+	Name    string `json:"Name"`
+	Version string `json:"Version"`
+}
+
+type VulnerabilityInfo struct {
+	Vulnerability v1.Vulnerability
+	Feature       v1.Feature
+	Severity      types.Priority
 }

@@ -10,10 +10,14 @@ import (
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
 	"sync"
+	"github.com/coreos/clair/utils/types"
+	"github.com/kr/text"
+	"github.com/astaxie/beego"
 )
 
 type ClairInterface interface {
 	ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error)
+	GetWebPortVulner(reposiroty string, tag string) (vulner models.Vulner, err error)
 }
 
 var clair *clairHandler
@@ -29,6 +33,58 @@ func GetClairHandler() ClairInterface {
 	})
 
 	return clair
+}
+
+func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner models.Vulner, err error) {
+
+	layer, err := c.ScanAndGetFeatures(reposiroty, tag)
+	if err != nil {
+		return
+	}
+
+	var vulnerabilities = make([]models.VulnerabilityInfo, 0)
+	for _, feature := range layer.Layer.Features {
+
+		if len(feature.Vulnerabilities) > 0 {
+			for _, vulnerability := range feature.Vulnerabilities {
+				severity := types.Priority(vulnerability.Severity)
+				vulnerabilities = append(vulnerabilities, models.VulnerabilityInfo{vulnerability, feature, severity})
+			}
+		}
+	}
+
+	harborURL := beego.AppConfig.String("harborURL")
+	vulner.ImageName = harborURL + "/" +reposiroty + ":" + tag
+
+	for _, vulnerabilityInfo := range vulnerabilities {
+
+		vulnerability := vulnerabilityInfo.Vulnerability
+		feature := vulnerabilityInfo.Feature
+		v := models.V{}
+
+		if vulnerability.Description != "" {
+			v.Description = text.Indent(text.Wrap(vulnerability.Description, 80), "\t")
+		}
+
+		v.Package = models.Package{
+			Name: feature.Name,
+			Version: feature.Version,
+		}
+
+		if vulnerability.Link != "" {
+			v.Link = vulnerability.Link
+		}
+
+		if vulnerability.FixedBy != "" {
+			v.FixedByVersion = vulnerability.FixedBy
+		}
+
+		v.Layer = feature.AddedBy
+
+		vulner.Vulners = append(vulner.Vulners, v)
+	}
+
+	return
 }
 
 func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scanedLayer v1.LayerEnvelope, err error) {
