@@ -10,7 +10,9 @@ package routers
 import (
 	"github.com/astaxie/beego"
 
+	"fmt"
 	"github.com/zhanglianx111/clair-plus/controllers"
+	"runtime"
 )
 
 func init() {
@@ -22,6 +24,8 @@ func init() {
 			),
 		)
 	*/
+	fmt.Println("cpu num: ", runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	beego.Router("/v1/scan/:namespace/:repository/:tag", &controllers.ScanController{}, "post:PostLayer")
 	beego.Router("/v1/scan/", &controllers.ScanController{}, "get:GetLay")
 	beego.Router("/v1/scan/manifest", &controllers.ScanController{}, "get:GetLayerManifest")

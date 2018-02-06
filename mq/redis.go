@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/adjust/rmq"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/httplib"
 	"github.com/astaxie/beego/logs"
+	"github.com/coreos/clair/api/v1"
 	"github.com/zhanglianx111/clair-plus/clair"
 	"github.com/zhanglianx111/clair-plus/models"
-	"time"
-	"github.com/coreos/clair/api/v1"
-	"github.com/astaxie/beego/httplib"
 	"strings"
-	"github.com/astaxie/beego"
+	"time"
 )
 
 type RedisMq struct {
@@ -58,7 +58,8 @@ func (r RedisMq) NewConsumer(name string) {
 	}
 
 	defer r.queue.Close()
-	r.queue.AddConsumer(name, &consumer)
+	cname := r.queue.AddConsumer(name, &consumer)
+	logs.Debug("consumer added:", cname)
 	select {}
 }
 
@@ -74,33 +75,25 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	consumer.count++
 
 	logs.Info("get message: ", image, "count: ", consumer.count)
+	go func() {
+		beginTime := time.Now()
+		scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
+		if err != nil {
+			logs.Error("扫描images失败:", err)
+			return
+		} else {
+			message.Ack()
+		}
+		logs.Debug(scanedLayer)
 
-	beginTime := time.Now()
-	scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
-	if err != nil {
-		logs.Error("扫描images失败:", err)
-		return
-	} else {
-		message.Ack()
-	}
-	logs.Debug(scanedLayer)
+		elapsed := time.Since(beginTime)
+		logs.Info("执行时间:", elapsed)
 
-	// send vnlnerabilites to somewhere
-	//现在发从给测试程序
-	sendResult(scanedLayer, image)
+		// send vnlnerabilites to somewhere
+		//现在发从给测试程序
+		sendResult(scanedLayer, image)
 
-	// TODO
-	elapsed := time.Since(beginTime)
-	logs.Info("执行时间:", elapsed)
-
-
-	//timeStr := elapsed.String()
-	/*sendStr := &sendStruct{
-		layer: scanedLayer.Layer,
-		error: scanedLayer.Error,
-		//usedTime: &timeStr,
-	}
-	sendResult(sendStr, image)*/
+	}()
 }
 
 // add a string message into mq
@@ -121,7 +114,7 @@ func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 	namespace := spl[0]
 	imageName := spl[1]
 
-	sendURL :=  webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
+	sendURL := webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
 

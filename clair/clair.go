@@ -40,10 +40,10 @@ func (c *clairHandler) ScanAndGetFeatures(repository string, tag string) (scaned
 		return
 	}
 	if !isExit {
-		logs.Error("repository:"+ repository + ":" + tag + " 不存在")
+		logs.Error("repository:" + repository + ":" + tag + " 不存在")
 		return
 	}
-	logs.Debug("repository: "+ repository + ":" + tag + " 存在")
+	logs.Debug("repository: " + repository + ":" + tag + " 存在")
 
 	//获取token
 	token, err := client.GetClient().GetToken(repository)
@@ -104,7 +104,7 @@ func scanImage(manifest models.ManifestObj, token string, repoName string) (scan
 		return
 	}
 
-	logs.Info("扫描image成功")
+	logs.Info("扫描image成功: ", repoName)
 	return
 }
 
