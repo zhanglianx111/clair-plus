@@ -7,12 +7,12 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/coreos/clair/api/v1"
 
+	"github.com/astaxie/beego"
+	"github.com/coreos/clair/utils/types"
+	"github.com/kr/text"
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
 	"sync"
-	"github.com/coreos/clair/utils/types"
-	"github.com/kr/text"
-	"github.com/astaxie/beego"
 )
 
 type ClairInterface interface {
@@ -53,8 +53,8 @@ func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner m
 		}
 	}
 
-	harborURL := beego.AppConfig.String("harborURL")
-	vulner.ImageName = harborURL + "/" +reposiroty + ":" + tag
+	harborURL := strings.Split(beego.AppConfig.String("harborURL"), "//")[1]
+	vulner.ImageName = harborURL + "/" + reposiroty + ":" + tag
 
 	for _, vulnerabilityInfo := range vulnerabilities {
 
@@ -67,7 +67,7 @@ func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner m
 		}
 
 		v.Package = models.Package{
-			Name: feature.Name,
+			Name:    feature.Name,
 			Version: feature.Version,
 		}
 
