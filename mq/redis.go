@@ -135,8 +135,7 @@ func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
 	resp, err := req.DoRequest()
 	if err != nil {
 		logs.Error("向web port发送put请求失败:", err)
-	}
-	if resp.StatusCode != 200 {
+	} else if resp.StatusCode != 200 {
 		logs.Error("向web port发送put请求失败:", resp.Status)
 	}
 	logs.Debug("向web port发送成功")
