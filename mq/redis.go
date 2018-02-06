@@ -7,7 +7,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/httplib"
 	"github.com/astaxie/beego/logs"
-	"github.com/coreos/clair/api/v1"
 	"github.com/zhanglianx111/clair-plus/clair"
 	"github.com/zhanglianx111/clair-plus/models"
 	"strings"
