@@ -106,7 +106,7 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 	return r.queue.PublishBytes(message)
 }
 
-func sendResult(scanedLayer v1.LayerEnvelope, image models.Image) {
+func sendResult(scanedLayer models.Vulner, image models.Image) {
 
 	webUrl := beego.AppConfig.String("webURL")
 
