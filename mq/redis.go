@@ -108,12 +108,15 @@ func (r *RedisMq) SendBytes(message []byte) bool {
 func sendResult(scanedLayer models.Vulner, image models.Image) {
 
 	webUrl := beego.AppConfig.String("webURL")
+	hub := beego.AppConfig.String("harborURL")
 
 	spl := strings.Split(image.Repo, "/")
 	namespace := spl[0]
 	imageName := spl[1]
 
-	sendURL := webUrl + "/v1/clair/" + "registry/hub.hcpaas.com/namespace/" + namespace + "/image/" + imageName + "/tag/" + image.Tag + "/imageReport"
+	huburl := strings.Split(hub, "//")[1]
+	logs.Debug("web url: ", webUrl)
+	sendURL := webUrl + "/wapi/rest/v1/registry/" + huburl + "/namespaces/" + namespace + "/images/" + imageName + "/tag/" + image.Tag + "/imageReport"
 
 	req := httplib.Put(sendURL)
 
@@ -128,7 +131,7 @@ func sendResult(scanedLayer models.Vulner, image models.Image) {
 	if err != nil {
 		logs.Error("向web port发送put请求失败:", err)
 	} else if resp.StatusCode != 200 {
-		logs.Error("向web port发送put请求失败:", resp.Status)
+		logs.Error("向web port发送put请求失败状态:", resp.Status)
 	}
 	logs.Debug("向web port发送成功")
 }
