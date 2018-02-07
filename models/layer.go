@@ -1,9 +1,6 @@
 package models
 
-import (
-	"github.com/coreos/clair/api/v1"
-	"github.com/coreos/clair/utils/types"
-)
+import "github.com/coreos/clair/api/v1"
 
 type ManifestObj struct {
 	Manifest Manifest `json:"manifest"`
@@ -53,5 +50,5 @@ type Package struct {
 type VulnerabilityInfo struct {
 	Vulnerability v1.Vulnerability
 	Feature       v1.Feature
-	Severity      types.Priority
+	Severity      string
 }

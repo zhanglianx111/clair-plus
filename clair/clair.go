@@ -8,7 +8,6 @@ import (
 	"github.com/coreos/clair/api/v1"
 
 	"github.com/astaxie/beego"
-	"github.com/coreos/clair/utils/types"
 	"github.com/kr/text"
 	"github.com/zhanglianx111/clair-plus/client"
 	"github.com/zhanglianx111/clair-plus/models"
@@ -47,7 +46,7 @@ func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner m
 
 		if len(feature.Vulnerabilities) > 0 {
 			for _, vulnerability := range feature.Vulnerabilities {
-				severity := types.Priority(vulnerability.Severity)
+				severity := vulnerability.Severity
 				vulnerabilities = append(vulnerabilities, models.VulnerabilityInfo{vulnerability, feature, severity})
 			}
 		}
