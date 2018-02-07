@@ -36,11 +36,13 @@ type Vulner struct {
 }
 
 type V struct {
+	Name 	       string  `json:"Name"`
 	Description    string  `json:"Description"`
 	Package        Package `json:"Package"`
 	FixedByVersion string  `json:"FixedByVersion"`
 	Link           string  `json:"Link"`
 	Layer          string  `json:"Layer"`
+	Severity       string  `json:"Severity"`
 }
 
 type Package struct {

@@ -62,6 +62,9 @@ func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner m
 		feature := vulnerabilityInfo.Feature
 		v := models.V{}
 
+		v.Name = vulnerability.Name
+		v.Severity = vulnerabilityInfo.Severity
+
 		if vulnerability.Description != "" {
 			v.Description = text.Indent(text.Wrap(vulnerability.Description, 80), "\t")
 		}
