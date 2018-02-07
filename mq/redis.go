@@ -74,25 +74,23 @@ func (consumer *Consumer) Consume(message rmq.Delivery) {
 	consumer.count++
 
 	logs.Info("get message: ", image, "count: ", consumer.count)
-	go func() {
-		beginTime := time.Now()
-		//scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
-		scanedLayer, err := clair.GetClairHandler().GetWebPortVulner(image.Repo, image.Tag)
-		if err != nil {
-			logs.Error("扫描images失败:", err)
-			return
-		} else {
-			message.Ack()
-		}
-		logs.Debug(scanedLayer)
+	beginTime := time.Now()
+	//scanedLayer, err := clair.GetClairHandler().ScanAndGetFeatures(image.Repo, image.Tag)
+	scanedLayer, err := clair.GetClairHandler().GetWebPortVulner(image.Repo, image.Tag)
+	if err != nil {
+		logs.Error("扫描images失败:", err)
+		return
+	} else {
+		message.Ack()
+	}
+	logs.Debug(scanedLayer)
 
-		elapsed := time.Since(beginTime)
-		logs.Info("执行时间:", elapsed)
+	elapsed := time.Since(beginTime)
+	logs.Info("执行时间:", elapsed)
 
-		// send vnlnerabilites to somewhere
-		//现在发从给测试程序
-		sendResult(scanedLayer, image)
-	}()
+	// send vnlnerabilites to somewhere
+	//现在发从给测试程序
+	sendResult(scanedLayer, image)
 }
 
 // add a string message into mq
