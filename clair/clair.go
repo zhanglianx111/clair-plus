@@ -37,7 +37,7 @@ func GetClairHandler() ClairInterface {
 func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner models.Vulner, err error) {
 
 	layer, err := c.ScanAndGetFeatures(reposiroty, tag)
-	if err != nil || layer.Error != nil {
+	if err != nil {
 		return
 	}
 	if layer.Layer == nil {
