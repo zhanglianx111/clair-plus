@@ -40,6 +40,9 @@ func (c *clairHandler) GetWebPortVulner(reposiroty string, tag string) (vulner m
 	if err != nil {
 		return
 	}
+	if layer.Layer == nil || layer.Error == nil {
+		return
+	}
 
 	var vulnerabilities = make([]models.VulnerabilityInfo, 0)
 	for _, feature := range layer.Layer.Features {
